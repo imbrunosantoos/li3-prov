@@ -4,20 +4,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 
-typedef struct no {
-    void *data;
-    struct no *prev;
-    struct no *next;
-} No;
-
-typedef struct deque {
-    No *head;
-    No *tail;
-    int tamanho;
-    bool reversed;
-} Deque;    
-
-
+typedef struct deque Deque;
 
 Deque *create(void);
 

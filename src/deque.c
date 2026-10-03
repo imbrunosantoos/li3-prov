@@ -3,6 +3,19 @@
 #include <stdbool.h>
 #include "deque.h"
 
+typedef struct no {
+    void *data;
+    struct no *prev;
+    struct no *next;
+} No;
+
+struct deque {
+    No *head;
+    No *tail;
+    int tamanho;
+    bool reversed;
+};
+
 Deque *create(void) {
     Deque *deque = malloc(sizeof(Deque));
     if (deque == NULL) return NULL; 
