@@ -1,149 +1,172 @@
 #include <stdio.h>
-#include <stdbool.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include "deque.h"
-
 
 Deque *create(void) {
     Deque *deque = malloc(sizeof(Deque));
-    if (deque == NULL) return NULL;
+    if (deque == NULL) return NULL; 
 
     deque -> head = NULL;
     deque -> tail = NULL;
-    deque -> size = 0;
+    deque -> tamanho = 0;
+    deque -> reversed = false;
 
     return deque;
 }
 
-void destroy(Deque *deque){
-    No *atual = deque->head;
+static void insereHead(Deque *deque, void *data) {
+    No *novo = malloc(sizeof(No));
+    novo->data = data;
+
+    if (deque->head == NULL) {
+        novo->next = NULL;
+        novo->prev = NULL;
+        deque->head = novo;
+        deque->tail = novo;
+    } else {
+        novo->next = deque->head;
+        novo->prev = NULL;
+        deque->head->prev = novo;
+        deque->head = novo;
+    }
+    deque->tamanho++;
+}
+
+static void insereTail(Deque *deque, void *data) {
+    No *novo = malloc(sizeof(No));
+    novo->data = data;
+
+    if (deque->tail == NULL) {
+        novo->next = NULL;
+        novo->prev = NULL;
+        deque->head = novo;
+        deque->tail = novo;
+    } else {
+        deque->tail->next = novo;
+        novo->prev = deque->tail;
+        novo->next = NULL;
+        deque->tail = novo;
+    }
+    deque->tamanho++;
+}
+
+void pushFront(Deque *deque, void *data) {
+    if (deque->reversed)
+        insereTail(deque, data);
+    else
+        insereHead(deque, data);
+}
+
+void push(Deque *deque, void *data) {
+    if (deque->reversed)
+        insereHead(deque, data);
+    else
+        insereTail(deque, data);
+}
+
+
+static void *retiraHead (Deque *deque) {
+
+    if (!(deque -> head == NULL)){
+        void *valor = deque -> head -> data;
+        if (deque -> tamanho == 1){
+            free (deque -> head);
+            deque -> head = NULL;
+            deque -> tail = NULL;
+        }
+        else {
+            No *proximo = deque -> head -> next;
+            proximo -> prev = NULL;
+            free (deque -> head);
+            deque -> head = proximo;
+        }
+        deque -> tamanho --;
+        return valor;
+    }
+    else return NULL;
+
+}
+
+static void *retiraTail (Deque *deque){
+    if (!(deque->tail == NULL)){
+        void *valor = deque -> tail -> data;
+
+        if (deque -> tamanho == 1){
+            free (deque -> tail);
+            deque -> head = NULL;
+            deque -> tail = NULL;
+        }
+        else{
+            No *anterior = deque->tail->prev;
+            anterior -> next = NULL;
+            free(deque -> tail);
+            deque -> tail = anterior;
+        }
+        deque -> tamanho --;
+        return valor;
+    }else return NULL;
+
+}
+
+void *pop(Deque *deque){
+     if (deque -> reversed)
+        return retiraHead (deque);
+    else
+        return retiraTail (deque);
     
-    while(atual != NULL){
-        No *proximo = atual->prox;
+}
+
+void *popFront(Deque *deque){
+    if (deque -> reversed)
+        return retiraTail (deque);
+    else
+        return retiraHead (deque);
+}
+
+int size(Deque *deque){
+    return deque -> tamanho;
+}
+
+bool isEmpty(Deque *deque){
+    return deque -> tamanho == 0;
+}
+
+
+void destroy(Deque *deque){
+    No *atual = deque -> head;
+    while (atual != NULL){
+        No *proximo = atual->next;
         free(atual);
         atual = proximo;
     }
     free(deque);
-    
 }
-
-void push(Deque *deque, void *data){
-    No *novo = malloc(sizeof(No));
-    if(novo == NULL) return;
-    
-    novo->prev = deque->tail;
-    novo->data = data;
-    novo->prox = NULL;
-
-    if(deque->head == NULL){
-        deque->head = novo;
-    } else {
-        deque->tail->prox = novo;
-    }
-    deque->size++;
-    deque->tail = novo;
-}
-
-
-void pushFront(Deque *deque, void *data){
-    No *novo = malloc(sizeof(No));
-    if(novo == NULL)return;
-
-    novo->prev = NULL;
-    novo->data = data;
-    novo->prox = deque->head;
-
-    if(deque->head == NULL){
-        deque->tail = novo;
-    } else {
-        deque->head->prev = novo;
-    }
-    deque->size++;
-    deque->head = novo;
-}
-
-void *pop(Deque *deque){
-    if(deque->tail == NULL){
-        return NULL;
-    }
-
-    No *novo = deque->tail->prev;
-    void *valor = deque->tail->data;
-
-    if(deque->head == deque->tail){
-
-        free(deque->tail);
-        deque->size--;
-        deque->head = NULL;
-        deque->tail = NULL;
-        return valor;
-    }
-    else {
-        free(deque->tail);
-        deque->tail = novo;
-        novo->prox = NULL;
-        deque->size--;
-        return valor;
-    }
-}
-
-void *popFront(Deque *deque){
-    if(deque->head == NULL){
-        return NULL;
-    }
-
-    No *novo = deque->head->prox;
-    void *valor = deque->head->data;
-
-    if(deque->head == deque->tail){
-        free(deque->head);
-        deque->size--;
-        deque->head = NULL;
-        deque->tail = NULL;
-        return valor;
-    } else{
-        free(deque->head);
-        novo->prev = NULL;
-        deque->head = novo;
-        deque->size--;
-        return valor;
-    }
-}
-
-int size(Deque *deque){
-    return deque->size;
-}
-
-bool isEmpty(Deque *deque){
-    if (deque->head == NULL){
-        return true;
-    }
-    else{
-        return false;
-    }
-}
-
-void printDeque(Deque *deque, void (*printFunc)(void *)){
-    No *temp = deque->head;
-
-    while(temp != NULL){
-        printFunc(temp->data);
-        temp = temp->prox;
-    }
-}
-
 
 void reverse(Deque *deque){
-    No *temp = deque->head;
+   deque -> reversed = !(deque -> reversed);
+} 
 
-    while(temp != NULL){
-            No *proximo = temp->prox;
-            temp->prox=temp->prev;
-            temp->prev = proximo;
-            temp = proximo;
+void printDeque(Deque *deque,void (*printFunc)(void *)){
+    if (deque -> head != NULL){
+        if (deque -> reversed){
+            No *atual = deque -> tail;
+            while (atual != NULL){
+                printFunc (atual -> data);
+                atual = atual -> prev;
+            }
         }
-        No *novoh = deque->head;
+        else{
+            No *atual = deque -> head;
+            while (atual != NULL){
+                printFunc (atual -> data);
+                atual = atual -> next;
+            }
 
-        deque->head = deque->tail;
-        deque->tail= novoh;
+        }
     }
+        
+}
+
+
+
