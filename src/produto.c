@@ -16,6 +16,7 @@ Produto *produto_novo(const char *id, const char *nome, const char *categoria, i
     Produto *produto = malloc(sizeof(Produto));
     if(produto == NULL) return NULL;
 
+     // strdup: o parser reutiliza o buffer da linha, por isso guardamos cópias nossas
     char *id1 = strdup(id);
     produto->id = id1;
 
@@ -41,6 +42,7 @@ Produto *produto_novo(const char *id, const char *nome, const char *categoria, i
 
 void produto_destroy(Produto *p){
     if(p == NULL) return;
+    // primeiro as strings pq depois de free(p) já não se pode aceder a p->
     free(p->id); 
     free(p->nome);
     free(p->categoria);
