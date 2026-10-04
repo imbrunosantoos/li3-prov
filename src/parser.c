@@ -1,20 +1,17 @@
-#define _DEFAULT_SOURCE
 #include "parser.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 #define MAX_CAMPOS 6
 
-int separar_campos(char *linha, char **campos, int max){
+int separar_campos(char *linha, char **campos, int max, const char *delim){
         int i = 0;
-        char *cursor = linha;
-        char *campo;
-
-        while ((i<max)&&((campo = strsep(&cursor, ";")) != NULL)) { 
-            campos[i]=campo;
-            i++;
-        }
-    
+    char *cursor = linha;
+    char *campo;
+    while ((i < max) && (campo = strsep(&cursor, delim)) != NULL) {
+        campos[i] = campo;
+        i++;
+    }
     return i;
 }
 
@@ -39,7 +36,7 @@ int ler_csv(const char *caminho) {
         line[strcspn(line, "\r\n")] = '\0';
 
         char *campos[MAX_CAMPOS];
-        int n = separar_campos(line, campos,MAX_CAMPOS);
+        int n = separar_campos(line, campos,MAX_CAMPOS,";");
 
         for (int i = 0; i < n; i++) printf("%s\n", campos[i]);  
     }
