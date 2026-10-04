@@ -25,7 +25,7 @@ Produto *produto_novo(const char *id, const char *nome, const char *categoria, i
 
 /**
  * @brief Liberta o produto e todas as suas strings
- * @param p O produto a libertar 
+ * @param p O produto a libertar(se for NULL, nao faz nada)
  */
 void produto_destroy(Produto *p);
 
