@@ -9,7 +9,7 @@ CC = gcc
 CFLAGS = -Wall -Wextra -std=c11 -g -D_DEFAULT_SOURCE -Iinclude
 
 # Reúne todos os executáveis numa só variável
-OBJS = src/parser.o src/cliente.o src/deque.o
+OBJS = src/parser.o src/cliente.o src/deque.o src/interpretador.o
 
 # Opcoes de linkagem(Caso usarmos outras bibliotecas sem ser a padrao de C)
 LDFLAGS =
@@ -29,6 +29,7 @@ src/main_testes.o: src/main_testes.c
 src/parser.o: src/parser.c include/parser.h
 src/cliente.o: src/cliente.c include/cliente.h
 src/deque.o: src/deque.c include/deque.h
+src/interpretador.o: src/interpretador.c include/interpretador.h include/parser.h
 
 
 # Limpa os executaveis
