@@ -3,7 +3,7 @@
 #include <stdbool.h>
 
 
-bool validar_id(const char *id, char prefixo );
+bool validar_id(const char *id, char prefixo);
 bool validar_data(const char *data );
 bool validar_texto(const char *str);
 bool validar_sem_espaco(const char *str);
