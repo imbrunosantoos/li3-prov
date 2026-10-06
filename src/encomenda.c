@@ -3,6 +3,7 @@
 #include <string.h>
 #include <stdlib.h>
 
+//A data fica como string: no formato AAAA-MM-DD, comparar com strcm, dá a ordem cronológica, e a Q3 escreve ela mais facil
 struct encomenda{
     char *id;
     char *id_cliente;
@@ -23,8 +24,10 @@ Encomenda *encomenda_nova(const char *id, const char *id_cliente, const char *da
     char *data1 = strdup (data);
     e->data = data1;
 
+    // O estado é um enum-fica dentro do bloco, sem strdup nem free
     e->estado = estado;
 
+    // Se algum strdup falhou, o destroy liberta o que já foi copiado
     if(e->id == NULL || e->id_cliente == NULL || e->data == NULL){
         encomenda_destroy(e);
         return NULL;
@@ -34,13 +37,16 @@ Encomenda *encomenda_nova(const char *id, const char *id_cliente, const char *da
 
 void encomenda_destroy(Encomenda *e){
     if(e == NULL) return;
-    
+
     free(e->id);
     free(e->id_cliente);
     free(e->data);
 
     free(e);
 }
+
+// Getters: devolvem o campo pedido, sem alterar a encomenda
+
 
 const char *encomenda_get_id(const Encomenda *e){
     return e->id;
