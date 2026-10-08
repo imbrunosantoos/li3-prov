@@ -7,13 +7,14 @@
 #define TAM_BUFFER 1024
 
 static int  separar_campos (char *linha_copia, char **campos, int max_campos) {
-    int count = 0;
-    char *token = strtok (linha_copia, ";\r\n");
-    while (token != NULL && count < max_campos) {
-        campos[count++] = token;
-        token = strtok(NULL, ";\r\n");
+    linha_copia [strcspn(linha_copia, "\r\n")] = '\0';
+    int i = 0;
+    char *cursor = linha_copia;
+    char *campo;
+    while ((i < max_campos ) && (campo = strsep(&cursor,";\r\n")) != NULL ) {
+        campos [i++] = campo;
     }
-    return count;
+    return i;
 }
 
 void processar_vendedores ( const char *caminho_entrada, const char *caminho_erros) {
@@ -43,9 +44,9 @@ void processar_vendedores ( const char *caminho_entrada, const char *caminho_err
 
         if (!validar_linha_vendedor((const char **)campos, n_campos)) {
             fputs(buffer, f_er);
+        } else {
         }
     }
-
     fclose(f_in);
     fclose(f_er);
 }

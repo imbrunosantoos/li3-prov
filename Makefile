@@ -13,7 +13,7 @@ CC = gcc
 CFLAGS = -Wall -Wextra -std=c11 -g -D_DEFAULT_SOURCE -Iinclude `pkg-config --cflags glib-2.0`
 
 # Reúne todos os executáveis numa só variável
-OBJS = src/parser.o src/cliente.o src/deque.o src/interpretador.o src/produto.o src/linha_encomenda.o src/encomenda.o
+OBJS = src/validadores.o src/vendedor.o src/parser.o src/cliente.o src/deque.o src/interpretador.o src/produto.o src/linha_encomenda.o src/encomenda.o
 
 # Opcoes de linkagem(Caso usarmos outras bibliotecas sem ser a padrao de C)
 # pkg-config --libs glib-2.0 - indica a biblioteca da glib
@@ -31,6 +31,8 @@ programa-testes: src/main_testes.o $(OBJS)
 
 src/main.o: src/main.c
 src/main_testes.o: src/main_testes.c
+src/validadores.o: src/validadores.c include/validadores.h
+src/vendedor.o: src/vendedor.c include/vendedor.h
 src/parser.o: src/parser.c include/parser.h
 src/cliente.o: src/cliente.c include/cliente.h
 src/deque.o: src/deque.c include/deque.h

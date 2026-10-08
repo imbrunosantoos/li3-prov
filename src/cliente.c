@@ -43,9 +43,10 @@ void processar_clientes (const char *caminho_entrada, const char *caminho_erros)
 
         if (!validar_linha_cliente((const char **)campos, n_campos)) {
             fputs(buffer, f_er);
+        } else {
+            
         }
     }
-
     fclose(f_in);
     fclose(f_er);
 }
