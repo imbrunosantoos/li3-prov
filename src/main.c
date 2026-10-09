@@ -8,9 +8,6 @@ int main(int argc, char **argv) {
         return 1;
     }
 
-    Deque *d = create();
-    destroy(d);
-
     if (interpretar_comandos(argv[2]) == -1) {
         fprintf(stderr, "erro ao processar comandos\n");
         return 1;
