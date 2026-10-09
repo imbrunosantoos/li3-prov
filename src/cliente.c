@@ -6,6 +6,54 @@
 
 #define TAM_BUFFER 1024
 
+
+struct cliente {
+    char *id;
+    char *nome;
+    char *regiao;
+    char *data;
+};
+
+Cliente *criar_cliente (const char *id, const char *nome, const char *data, const char *regiao){
+    Cliente *c = malloc (sizeof(struct cliente));
+    if (c == NULL) return NULL;
+    c -> id = strdup(id);
+    c -> nome = strdup (nome);
+    c -> regiao = strdup (regiao);
+    c -> data = strdup (data);
+    return c;
+}
+
+void destruir_cliente(void *cliente_ptr) {
+    Cliente *c = (Cliente *) cliente_ptr;
+    if (c == NULL) return;
+    free (c -> id);
+    free (c -> nome);
+    free ( c -> regiao);
+    free (c -> data);
+    free (c);
+}
+
+
+const char *get_cliente_id (const Cliente *c){
+    if (c == NULL) return NULL;
+    return c-> id;
+}
+
+const char *get_cliente_nome (const Cliente *c){
+    if (c == NULL) return NULL;
+    return c-> nome;
+}
+
+const char *get_cliente_data (const Cliente *c){
+    if (c == NULL) return NULL;
+    return c-> data;
+}
+char *get_cliente_regiao (const Cliente *c){
+    if (c == NULL) return NULL;
+    return c-> regiao;
+}
+
 static int separar_campos(char *linha_copia, char **campos, int max_campos) {
     int count = 0;
     char *token = strtok(linha_copia, ";\r\n");

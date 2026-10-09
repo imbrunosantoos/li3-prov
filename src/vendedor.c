@@ -6,6 +6,60 @@
 
 #define TAM_BUFFER 1024
 
+struct vendedor {
+    char *id;
+    char *nome;
+    char *categoria;
+    char *data;
+};
+
+Vendedor *criar_vendedor(const char *id, const char *nome, const char *categoria, const char *data) {
+    Vendedor *v = malloc (sizeof(struct vendedor));
+    if (v == NULL) return NULL;
+    v -> id = strdup(id);
+    v -> nome = strdup (nome);
+    v -> categoria = strdup (categoria);
+    v -> data = strdup (data);
+    return v;
+}    
+
+void destruir_vendedor(void *vendedor_ptr) {
+    Vendedor *v = (Vendedor *)vendedor_ptr;
+    if (v == NULL) return;
+    free (v -> id);
+    free (v -> nome);
+    free ( v -> categoria);
+    free (v -> data);
+    free (v);
+}
+
+const char *get_vendedor_id (const Vendedor *v){
+    if (v == NULL) return NULL;
+    return v-> id;
+}
+
+const char *get_cliente_nome (const Vendedor *v){
+    if (v == NULL) return NULL;
+    return v-> nome;
+}
+
+const char *get_cliente_data (const Vendedor *v){
+    if (v == NULL) return NULL;
+    return v-> data;
+}
+char *get_vendedor_categoria (const Vendedor *v){
+    if (v == NULL) return NULL;
+    return v-> categoria;
+}
+
+
+
+
+
+
+
+
+
 static int  separar_campos (char *linha_copia, char **campos, int max_campos) {
     linha_copia [strcspn(linha_copia, "\r\n")] = '\0';
     int i = 0;
