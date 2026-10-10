@@ -38,12 +38,12 @@ const char *get_vendedor_id (const Vendedor *v){
     return v-> id;
 }
 
-const char *get_cliente_nome (const Vendedor *v){
+const char *get_vendedor_nome (const Vendedor *v){
     if (v == NULL) return NULL;
     return v-> nome;
 }
 
-const char *get_cliente_data (const Vendedor *v){
+const char *get_vendedor_data (const Vendedor *v){
     if (v == NULL) return NULL;
     return v-> data;
 }
@@ -99,6 +99,7 @@ void processar_vendedores ( const char *caminho_entrada, const char *caminho_err
         if (!validar_linha_vendedor((const char **)campos, n_campos)) {
             fputs(buffer, f_er);
         } else {
+             Vendedor *v = vendedor_novo (campos[0], campos [1], campos [2], campos [3]);
         }
     }
     fclose(f_in);

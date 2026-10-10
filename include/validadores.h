@@ -1,6 +1,11 @@
 #ifndef  VALIDADORES_H
 #define  VALIDADORES_H
 #include <stdbool.h>
+#include <stdint.h>
+#include "produto.h"
+#include "encomenda.h"
+
+
 
 typedef enum {
     ESTADO_PROD_INVALIDO = -1,

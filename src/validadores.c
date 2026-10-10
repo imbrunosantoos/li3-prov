@@ -140,8 +140,8 @@ bool validar_linha_cliente (const char  **campos, int n_campos) {
     if ( n_campos < 4 ) return false;
     if ( !validar_id (campos[0] , 'C' )) return false;
     if ( !validar_texto (campos[1])) return false;
-    if ( !validar_texto (campos [2])) return false;
-    if ( !validar_sem_espacos (campos[3])) return false;
+    if ( !validar_sem_espacos (campos [2])) return false;
+    if ( !validar_data (campos[3])) return false;
     return true;
 }
 
