@@ -1,6 +1,7 @@
 #Executáveis
 programa-principal
 programa-testes
+testes/testes
 
 #Ficheiros 
 *.o
