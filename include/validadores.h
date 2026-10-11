@@ -7,20 +7,6 @@
 
 
 
-typedef enum {
-    ESTADO_PROD_INVALIDO = -1,
-    ESTADO_PROD_ATIVO,
-    ESTADO_PROD_DESCONTINUADO
-} EstadoProduto;
-
-typedef enum {
-    ESTADO_ENC_INVALIDO = -1,
-    ESTADO_ENC_PAGA,
-    ESTADO_ENC_ENVIADA,
-    ESTADO_ENC_ENTREGUE,
-    ESTADO_ENC_CANCELADA
-} EstadoEncomenda;
-
 bool validar_id(const char *id, char prefixo);
 bool validar_data(const char *data );
 bool validar_texto(const char *str);

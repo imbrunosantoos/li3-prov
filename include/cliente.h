@@ -4,8 +4,8 @@
 
 typedef struct cliente Cliente;
 
-Cliente *criar_cliente(const char *id, const char *nome, const char *regiao, const char *data);
-void destruir_cliente (void *cliente_ptr);
+Cliente *cliente_novo(const char *id, const char *nome, const char *regiao, const char *data);
+void cliente_destroy(void *cliente_ptr);
 
 const char *get_cliente_id(const Cliente *c);
 const char *get_cliente_nome(const Cliente *c);

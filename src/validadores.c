@@ -59,7 +59,7 @@ bool validar_preco (const char *texto, int64_t *cents) {
         }
         i++;
     }
-    if ( i == 0 || texto [i - 1 ] == '.' || casas_decimais > 2) return false;
+    if ( i == 0 ||  casas_decimais > 2) return false;
     if (cents != NULL) {
         char *ponto = strchr (texto, '.');
         if (!ponto) {
@@ -95,11 +95,11 @@ bool validar_quantidade (const char *texto, int *quantidade) {
 bool validar_estado_produto (const char *texto, EstadoProduto *estado) {
     if (!texto) return false;
     if (strcmp(texto, "ativo") == 0) {
-        if (estado) *estado = ESTADO_PROD_ATIVO;
+        if (estado) *estado = PRODUTO_ATIVO;
         return true;
     }
     if (strcmp(texto, "descontinuado") == 0) {
-        if (estado) *estado = ESTADO_PROD_DESCONTINUADO;
+        if (estado) *estado = PRODUTO_DESCONTINUADO;
         return true;
     }
     return false;
@@ -109,19 +109,19 @@ bool validar_estado_encomenda(const char *texto, EstadoEncomenda *estado) {
     if (!texto) return false;
 
     if (strcmp (texto, "paga") == 0) {
-        if (estado) *estado = ESTADO_ENC_PAGA;
+        if (estado) *estado = ENCOMENDA_PAGA;
         return true;
     }
     if (strcmp(texto, "enviada") == 0) {
-        if (estado) *estado = ESTADO_ENC_ENVIADA;
+        if (estado) *estado = ENCOMENDA_ENVIADA;
         return true;
     }
      if (strcmp(texto, "entregue") == 0) {
-        if (estado) *estado = ESTADO_ENC_ENTREGUE;
+        if (estado) *estado = ENCOMENDA_ENTREGUE;
         return true;
     }   
     if (strcmp(texto, "cancelada") == 0) {
-        if (estado) *estado = ESTADO_ENC_CANCELADA;
+        if (estado) *estado = ENCOMENDA_CANCELADA;
         return true;
     }
     return false;

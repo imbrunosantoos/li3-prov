@@ -13,17 +13,27 @@ struct vendedor {
     char *data;
 };
 
-Vendedor *criar_vendedor(const char *id, const char *nome, const char *categoria, const char *data) {
+Vendedor *vendedor_novo(const char *id, const char *nome, const char *categoria, const char *data) {
     Vendedor *v = malloc (sizeof(struct vendedor));
     if (v == NULL) return NULL;
     v -> id = strdup(id);
     v -> nome = strdup (nome);
     v -> categoria = strdup (categoria);
     v -> data = strdup (data);
-    return v;
+    
+    if (!v->id || !v->nome || !v->categoria || !v->data) {
+        free (v -> id);
+        free (v -> nome);
+        free ( v -> categoria);
+        free (v -> data);
+        free (v);
+        return NULL;
+    }
+    
+     return v;
 }    
 
-void destruir_vendedor(void *vendedor_ptr) {
+void vendedor_destroy(void *vendedor_ptr) {
     Vendedor *v = (Vendedor *)vendedor_ptr;
     if (v == NULL) return;
     free (v -> id);
@@ -47,7 +57,7 @@ const char *get_vendedor_data (const Vendedor *v){
     if (v == NULL) return NULL;
     return v-> data;
 }
-char *get_vendedor_categoria (const Vendedor *v){
+const char *get_vendedor_categoria (const Vendedor *v){
     if (v == NULL) return NULL;
     return v-> categoria;
 }
@@ -55,21 +65,6 @@ char *get_vendedor_categoria (const Vendedor *v){
 
 
 
-
-
-
-
-
-static int  separar_campos (char *linha_copia, char **campos, int max_campos) {
-    linha_copia [strcspn(linha_copia, "\r\n")] = '\0';
-    int i = 0;
-    char *cursor = linha_copia;
-    char *campo;
-    while ((i < max_campos ) && (campo = strsep(&cursor,";\r\n")) != NULL ) {
-        campos [i++] = campo;
-    }
-    return i;
-}
 
 void processar_vendedores ( const char *caminho_entrada, const char *caminho_erros) {
     FILE *f_in = fopen (caminho_entrada, "r" );
@@ -100,6 +95,7 @@ void processar_vendedores ( const char *caminho_entrada, const char *caminho_err
             fputs(buffer, f_er);
         } else {
              Vendedor *v = vendedor_novo (campos[0], campos [1], campos [2], campos [3]);
+             vendedor_destroy (v);
         }
     }
     fclose(f_in);
