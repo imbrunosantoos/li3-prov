@@ -59,7 +59,7 @@ bool validar_preco (const char *texto, int64_t *cents) {
         }
         i++;
     }
-    if ( i == 0 ||  casas_decimais > 2) return false;
+    if ( i == 0 || texto[i-1] == '.' || casas_decimais > 2) return false;
     if (cents != NULL) {
         char *ponto = strchr (texto, '.');
         if (!ponto) {

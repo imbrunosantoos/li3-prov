@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "parser.h"
 
 #define TAM_BUFFER 1024
 
@@ -91,8 +92,8 @@ void processar_clientes (const char *caminho_entrada, const char *caminho_erros)
 
         while (fgets(buffer, sizeof(buffer), f_in) != NULL) {
         strcpy(linha_copia, buffer);
-
-        int n_campos = separar_campos(linha_copia, campos, 10);
+        linha_copia[strcspn(linha_copia, "\r\n")] = '\0';
+        int n_campos = separar_campos(linha_copia, campos, 10, ";");
 
         if (!validar_linha_cliente((const char **)campos, n_campos)) {
             fputs(buffer, f_er);
