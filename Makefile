@@ -1,4 +1,4 @@
-.PHONY: all clean 
+.PHONY: all clean test
 
 # Compilador usado
 CC = gcc
@@ -13,7 +13,7 @@ CC = gcc
 CFLAGS = -Wall -Wextra -std=c11 -g -D_DEFAULT_SOURCE -Iinclude `pkg-config --cflags glib-2.0`
 
 # Reúne todos os executáveis numa só variável
-OBJS = src/parser.o src/cliente.o src/deque.o src/interpretador.o src/produto.o src/linha_encomenda.o src/encomenda.o src/queries.o
+OBJS = src/parser.o src/cliente.o src/deque.o src/interpretador.o src/produto.o src/linha_encomenda.o src/encomenda.o src/gestor_produtos.o src/queries.o
 
 # Opcoes de linkagem(Caso usarmos outras bibliotecas sem ser a padrao de C)
 # pkg-config --libs glib-2.0 - indica a biblioteca da glib
@@ -38,9 +38,16 @@ src/interpretador.o: src/interpretador.c include/interpretador.h include/parser.
 src/produto.o: src/produto.c include/produto.h
 src/linha_encomenda.o: src/linha_encomenda.c include/linha_encomenda.h
 src/encomenda.o: src/encomenda.c include/encomenda.h
+src/gestor_produtos.o: src/gestor_produtos.c include/gestor_produtos.h include/produto.h
 src/queries.o: src/queries.c include/queries.h
 
+#testes unitarios - compila testes.c com os modulos q ele testa
+testes/testes: testes/testes.c src/gestor_produtos.o src/produto.o
+	$(CC) $(CFLAGS) $^ $(LDFLAGS) -o $@
 
+# Corre os testes unitários dos gestores
+test: testes/testes
+	./testes/testes
 # Limpa os executaveis
 clean:
-	rm -f programa-principal programa-testes src/*.o
+	rm -f programa-principal programa-testes testes/testes src/*.o
