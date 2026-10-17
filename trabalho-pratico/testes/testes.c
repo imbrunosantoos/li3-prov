@@ -3,6 +3,7 @@
 #include <stdio.h>
 
 #include "gestor_produtos.h"
+#include "gestor_encomendas.h"
 
 static int total = 0;
 static int falhas = 0;
@@ -58,10 +59,56 @@ static void teste_gestor_produtos_erro(void) {
     gestor_produtos_destroy(ge);
 }
 
+// -------   Gestor de encomendas
+
+// Cria uma encomenda de teste só o id importa nestes testes
+static Encomenda *encomenda_teste(const char *id) {
+    return encomenda_nova(id, "C000001", "2026-01-01", ENCOMENDA_PAGA);
+}
+
+// Caso normal- procurar pelo id devolve a mesma encomenda que foi inserida
+static void teste_gestor_encomendas_normal(void) {
+    GestorEncomendas *ge = gestor_encomendas_create();
+    Encomenda *e = encomenda_teste("O000001");
+
+    VERIFICA(gestor_encomendas_inserir(ge, e));
+    VERIFICA(gestor_encomendas_procurar(ge, "O000001") == e);
+
+    gestor_encomendas_destroy(ge);
+}
+
+// Caso limite - procurar num gestor vazio devolve NULL
+static void teste_gestor_encomendas_limite(void) {
+    GestorEncomendas *ge = gestor_encomendas_create();
+
+    VERIFICA(gestor_encomendas_procurar(ge, "O000001") == NULL);
+
+    gestor_encomendas_destroy(ge);
+}
+
+// Casos de erro - id repetido e gestor NULL são recusados
+static void teste_gestor_encomendas_erro(void) {
+    GestorEncomendas *ge = gestor_encomendas_create();
+    Encomenda *original = encomenda_teste("O000001");
+    gestor_encomendas_inserir(ge, original);
+
+    VERIFICA(!gestor_encomendas_inserir(ge, encomenda_teste("O000001")));
+
+    // a encomenda original não foi substituída pela repetida
+    VERIFICA(gestor_encomendas_procurar(ge, "O000001") == original);
+    VERIFICA(!gestor_encomendas_inserir(NULL, encomenda_teste("O000002")));
+
+    gestor_encomendas_destroy(ge);
+}
+
+
 int main(void) {
     teste_gestor_produtos_normal();
     teste_gestor_produtos_limite();
     teste_gestor_produtos_erro();
+    teste_gestor_encomendas_normal();
+    teste_gestor_encomendas_limite();
+    teste_gestor_encomendas_erro();
 
     printf("Testes: %d, falhas: %d\n", total, falhas);
 

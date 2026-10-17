@@ -45,7 +45,7 @@ src/queries.o: src/queries.c include/queries.h
 src/gestor_encomendas.o: src/gestor_encomendas.c include/gestor_encomendas.h include/encomenda.h
 
 #testes unitarios - compila testes.c com os modulos q ele testa
-testes/testes: testes/testes.c src/gestor_produtos.o src/produto.o
+testes/testes: testes/testes.c src/gestor_produtos.o src/produto.o src/gestor_encomendas.o src/encomenda.o
 	$(CC) $(CFLAGS) $^ $(LDFLAGS) -o $@
 
 # Corre os testes unitários dos gestores
