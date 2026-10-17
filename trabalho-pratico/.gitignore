@@ -1,0 +1,17 @@
+#Executáveis
+programa-principal
+programa-testes
+testes/testes
+
+#Ficheiros 
+*.o
+
+#Resultados gerados pelo programa
+resultados/*
+!resultados/.gitkeep 
+#ignora todos menos esse ficheiro(regra do guião)
+
+#Datasets
+dataset/
+dataset-erros/
+
