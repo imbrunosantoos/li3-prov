@@ -4,7 +4,7 @@
 #include "cliente.h"
 #include "vendedor.h"
 #include <stdio.h>
-#include <string.h
+#include <string.h>
 #include <stdbool.h>
 
 #define TAM_BUFFER 1024
