@@ -4,7 +4,7 @@
 #include "cliente.h"
 #include "gestor_clientes.h"
 #include "gestor_vendedores.h"
-
+#include "carregamento.h"
 
 
 int main(int argc, char **argv)
@@ -34,6 +34,12 @@ GestorClientes *gc = gestor_clientes_create();
 
 processar_vendedores (caminho_vendedores , caminho_erros_vendedores);
 processar_clientes (caminho_clientes , caminho_erros_clientes);
+
+carregar_vendedores (caminho_vendedores, caminho_erros_vendedores, gv);
+carregar_clientes (caminho_clientes, caminho_erros_clientes, gc);
+
+
+
 
 gestor_vendedores_destroy(gv);
 gestor_clientes_destroy(gc);
