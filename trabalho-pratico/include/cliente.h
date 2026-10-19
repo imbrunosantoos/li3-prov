@@ -13,7 +13,5 @@ const char *get_cliente_regiao(const Cliente *c);
 const char *get_cliente_data(const Cliente *c);
 
 
-void processar_clientes (const char *caminho_entrada, const char *caminho_erros ); 
-
 
 #endif
