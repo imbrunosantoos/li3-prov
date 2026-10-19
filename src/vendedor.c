@@ -1,9 +1,7 @@
 #include "vendedor.h"
-#include "validadores.h"
-#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "parser.h"
+
 
 #define TAM_BUFFER 1024
 
@@ -65,40 +63,3 @@ const char *get_vendedor_categoria (const Vendedor *v){
 
 
 
-
-
-void processar_vendedores ( const char *caminho_entrada, const char *caminho_erros) {
-    FILE *f_in = fopen (caminho_entrada, "r" );
-    if (!f_in) {
-        perror("ERRO AO ABRIR FICHEIRO DE VENDEDORES " );
-        return;
-    }
-    FILE *f_er = fopen(caminho_erros, "w");
-    if (!f_er) {
-        perror("ERRO AO ABRIR FICHEIRO DE ERRO DE VENDEDORES");
-        fclose(f_in);
-        return; 
-    }    
-    
-    char buffer [TAM_BUFFER];
-    char linha_copia [TAM_BUFFER];
-        if (fgets(buffer, sizeof(buffer), f_in) != NULL) {
-            fputs(buffer, f_er);
-        }
-        char *campos[10];
-
-        while (fgets(buffer, sizeof(buffer), f_in) != NULL) {
-        strcpy(linha_copia, buffer);
-        linha_copia[strcspn(linha_copia, "\r\n")] = '\0';
-        int n_campos = separar_campos(linha_copia, campos, 10,";");
-
-        if (!validar_linha_vendedor((const char **)campos, n_campos)) {
-            fputs(buffer, f_er);
-        } else {
-             Vendedor *v = vendedor_novo (campos[0], campos [1], campos [2], campos [3]);
-             vendedor_destroy (v);
-        }
-    }
-    fclose(f_in);
-    fclose(f_er);
-}

@@ -14,7 +14,4 @@ const char *get_vendedor_data(const Vendedor *c);
 
 
 
-
-void processar_vendedores (const char *caminho_entrada, const char *caminho_erros);
-
 #endif 

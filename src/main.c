@@ -1,7 +1,5 @@
 #include <stdio.h>
 #include "interpretador.h"
-#include "vendedor.h"
-#include "cliente.h"
 #include "gestor_clientes.h"
 #include "gestor_vendedores.h"
 #include "carregamento.h"
@@ -32,8 +30,6 @@ GestorVendedores *gv = gestor_vendedores_create();
 GestorClientes *gc = gestor_clientes_create();
 
 
-processar_vendedores (caminho_vendedores , caminho_erros_vendedores);
-processar_clientes (caminho_clientes , caminho_erros_clientes);
 
 carregar_vendedores (caminho_vendedores, caminho_erros_vendedores, gv);
 carregar_clientes (caminho_clientes, caminho_erros_clientes, gc);
