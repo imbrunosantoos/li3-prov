@@ -15,3 +15,5 @@ resultados/*
 dataset/
 dataset-erros/
 
+#ficheiro que o make cria sozinho
+*.dSYM
