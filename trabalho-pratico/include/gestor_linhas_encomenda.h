@@ -1,5 +1,5 @@
-#ifndef GESTOR_LINHA_ENCOMENDA_H
-#define GESTOR_LINHA_ENCOMENDA_H
+#ifndef GESTOR_LINHAS_ENCOMENDA_H
+#define GESTOR_LINHAS_ENCOMENDA_H
 
 #include "linha_encomenda.h"
 #include <stdbool.h>
