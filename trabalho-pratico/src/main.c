@@ -1,7 +1,9 @@
 #include <stdio.h>
 #include "interpretador.h"
-#include "vendedor.h"
-#include "cliente.h"
+#include "gestor_clientes.h"
+#include "gestor_vendedores.h"
+#include "carregamento.h"
+
 
 int main(int argc, char **argv)
 {
@@ -24,13 +26,19 @@ snprintf (caminho_erros_vendedores, sizeof(caminho_erros_vendedores), "resultado
 snprintf (caminho_clientes, sizeof(caminho_clientes), "%s/clientes.csv", argv[1]);
 snprintf (caminho_erros_clientes, sizeof(caminho_erros_clientes), "resultados/clientes_errors.csv");
 
+GestorVendedores *gv = gestor_vendedores_create();
+GestorClientes *gc = gestor_clientes_create();
+
+
+
+carregar_vendedores (caminho_vendedores, caminho_erros_vendedores, gv);
+carregar_clientes (caminho_clientes, caminho_erros_clientes, gc);
 
 
 
 
-processar_vendedores (caminho_vendedores , caminho_erros_vendedores);
-processar_clientes (caminho_clientes , caminho_erros_clientes);
-
+gestor_vendedores_destroy(gv);
+gestor_clientes_destroy(gc);
 
     if (interpretar_comandos(argv[2]) == -1) {
         fprintf(stderr, "erro ao processar comandos\n");
