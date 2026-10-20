@@ -1,6 +1,9 @@
 #ifndef DADOS_H
 #define DADOS_H
 #include "gestor_produtos.h"
+#include "gestor_encomendas.h"
+#include "gestor_clientes.h"
+#include "gestor_vendedores.h"
 
 typedef struct dados Dados;
 
@@ -29,5 +32,47 @@ const GestorProdutos *dados_get_produtos(const Dados *d);
  * @return  O gestor de produtos, onde se pode inserir. Pertence à estrutura de dados: não fazer free nem destroy (é libertado pelo dados_destruir).
  */
 GestorProdutos *dados_get_produtos_mut(Dados *d);
+
+/**
+ * @brief   Dá acesso ao gestor de clientes, só para leitura. É o getter que as queries devem usar.
+ * @param d Estrutura de dados.
+ * @return  O gestor de clientes. Pertence à estrutura de dados: não fazer free nem destroy (é libertado pelo dados_destruir).
+ */
+const GestorClientes *dados_get_clientes(const Dados *d);
+
+/**
+ * @brief   Dá acesso ao gestor de clientes, para inserir dados. É o getter que o carregamento deve usar (as queries usam dados_get_clientes).
+ * @param d Estrutura de dados.
+ * @return  O gestor de clientes, onde se pode inserir. Pertence à estrutura de dados: não fazer free nem destroy (é libertado pelo dados_destruir).
+ */
+GestorClientes *dados_get_clientes_mut(Dados *d);
+
+/**
+ * @brief   Dá acesso ao gestor de encomendas, só para leitura. É o getter que as queries devem usar.
+ * @param d Estrutura de dados.
+ * @return  O gestor de encomendas. Pertence à estrutura de dados: não fazer free nem destroy (é libertado pelo dados_destruir).
+ */
+const GestorEncomendas *dados_get_encomendas(const Dados *d);
+
+/**
+ * @brief   Dá acesso ao gestor de encomendas, para inserir dados. É o getter que o carregamento deve usar (as queries usam dados_get_encomendas).
+ * @param d Estrutura de dados.
+ * @return  O gestor de encomendas, onde se pode inserir. Pertence à estrutura de dados: não fazer free nem destroy (é libertado pelo dados_destruir).
+ */
+GestorEncomendas *dados_get_encomendas_mut(Dados *d);
+
+/**
+ * @brief   Dá acesso ao gestor de vendedores, só para leitura. É o getter que as queries devem usar.
+ * @param d Estrutura de dados.
+ * @return  O gestor de vendedores. Pertence à estrutura de dados: não fazer free nem destroy (é libertado pelo dados_destruir).
+ */
+const GestorVendedores *dados_get_vendedores(const Dados *d);
+
+/**
+ * @brief   Dá acesso ao gestor de vendedores, para inserir dados. É o getter que o carregamento deve usar (as queries usam dados_get_vendedores).
+ * @param d Estrutura de dados.
+ * @return  O gestor de vendedores, onde se pode inserir. Pertence à estrutura de dados: não fazer free nem destroy (é libertado pelo dados_destruir).
+ */
+GestorVendedores *dados_get_vendedores_mut(Dados *d);
 
 #endif
