@@ -25,7 +25,10 @@ int main(int argc, char **argv)
     Dados *d = dados_criar();
 
     if (d == NULL)
+    {
+        fprintf(stderr, "Erro: sem memoria para criar os dados\n");
         return 1;
+    }
 
     carregar_vendedores(caminho_vendedores, caminho_erros_vendedores, dados_get_vendedores_mut(d));
     carregar_clientes(caminho_clientes, caminho_erros_clientes, dados_get_clientes_mut(d));
