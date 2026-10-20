@@ -44,8 +44,7 @@ src/gestor_produtos.o: src/gestor_produtos.c include/gestor_produtos.h include/p
 src/queries.o: src/queries.c include/queries.h
 src/gestor_clientes.o: src/gestor_clientes.c include/gestor_clientes.h include/cliente.h
 src/gestor_vendedores.o: src/gestor_vendedores.c include/gestor_vendedores.h include/vendedor.h
-src/carregamento.o: src/carregamento.c include/carregamento.h include/parser.h include/validadores.h include/cliente.h include/vendedor.h
-
+src/carregamento.o: src/carregamento.c include/carregamento.h include/gestor_clientes.h include/cliente.h include/gestor_vendedores.h include/vendedor.h include/parser.h include/validadores.h include/produto.h include/encomenda.h include/cliente.h include/vendedor.h
 src/utils.o: src/utils.c include/utils.h
 src/gestor_encomendas.o: src/gestor_encomendas.c include/gestor_encomendas.h include/encomenda.h
 src/dados.o: src/dados.c include/dados.h include/gestor_produtos.h include/produto.h include/gestor_encomendas.h include/encomenda.h include/gestor_clientes.h include/cliente.h include/gestor_vendedores.h include/vendedor.h
