@@ -4,6 +4,7 @@
 
 #include "gestor_produtos.h"
 #include "gestor_encomendas.h"
+#include "gestor_linhas_encomenda.h"
 
 static int total = 0;
 static int falhas = 0;
@@ -102,6 +103,53 @@ static void teste_gestor_encomendas_erro(void) {
 }
 
 
+// ---------- Gestor de linhas de encomenda
+
+// Cria uma linha de teste -  só os ids importam nestes testes
+static LinhaEncomenda *linha_teste(const char *id_encomenda, const char *id_produto) {
+    return linha_encomenda_nova(id_encomenda, id_produto, 1, 1000);
+}
+
+// Caso normal: duas linhas da mesma encomenda ficam juntas, pela ordem de chegada
+static void teste_gestor_linhas_normal(void) {
+    GestorLinhaEncomenda *gl = gestor_linha_encomenda_create();
+    LinhaEncomenda *l1 = linha_teste("O000001", "P000001");
+    LinhaEncomenda *l2 = linha_teste("O000001", "P000002");
+
+    VERIFICA(gestor_linha_encomenda_inserir(gl, l1));
+    VERIFICA(gestor_linha_encomenda_inserir(gl, l2));
+    VERIFICA(gestor_linha_encomenda_num_linhas(gl, "O000001") == 2);
+    VERIFICA(gestor_linha_encomenda_get_linha(gl, "O000001", 0) == l1);
+    VERIFICA(gestor_linha_encomenda_get_linha(gl, "O000001", 1) == l2);
+
+    gestor_linha_encomenda_destroy(gl);
+}
+
+// Caso-limite: encomenda sem linhas tem 0 linhas e posição fora dos limites devolve NULL
+static void teste_gestor_linhas_limite(void) {
+    GestorLinhaEncomenda *gl = gestor_linha_encomenda_create();
+    gestor_linha_encomenda_inserir(gl, linha_teste("O000001", "P000001"));
+
+    VERIFICA(gestor_linha_encomenda_num_linhas(gl, "O000002") == 0);
+    VERIFICA(gestor_linha_encomenda_get_linha(gl, "O000001", 1) == NULL);
+
+    gestor_linha_encomenda_destroy(gl);
+}
+
+// Casos de erro- par (encomenda, produto) repetido e gestor NULL são recusados
+static void teste_gestor_linhas_erro(void) {
+    GestorLinhaEncomenda *gl = gestor_linha_encomenda_create();
+    gestor_linha_encomenda_inserir(gl, linha_teste("O000001", "P000001"));
+
+    VERIFICA(gestor_linha_encomenda_existe_par(gl, "O000001", "P000001"));
+    VERIFICA(!gestor_linha_encomenda_inserir(gl, linha_teste("O000001", "P000001")));
+    // a linha repetida não entrou
+    VERIFICA(gestor_linha_encomenda_num_linhas(gl, "O000001") == 1);
+    VERIFICA(!gestor_linha_encomenda_inserir(NULL, linha_teste("O000001", "P000002")));
+
+    gestor_linha_encomenda_destroy(gl);
+}
+
 int main(void) {
     teste_gestor_produtos_normal();
     teste_gestor_produtos_limite();
@@ -109,6 +157,9 @@ int main(void) {
     teste_gestor_encomendas_normal();
     teste_gestor_encomendas_limite();
     teste_gestor_encomendas_erro();
+    teste_gestor_linhas_normal();
+    teste_gestor_linhas_limite();
+    teste_gestor_linhas_erro();
 
     printf("Testes: %d, falhas: %d\n", total, falhas);
 
