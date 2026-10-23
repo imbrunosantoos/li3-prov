@@ -14,7 +14,7 @@ Output *output_abrir(int n_comando, char sep);
 /**
  * @brief       Escreve o campo dado dentro do ficheiro correspondente com o separador antes exceto no caso do primeiro campo
  * @param o     Output onde escrever (criado com output_abrir)
- * @param camp  O que se tem que escrever
+ * @param campo  O que se tem que escrever
  */
 void output_campo(Output *o, const char *campo);
 
