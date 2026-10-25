@@ -13,7 +13,7 @@ CC = gcc
 CFLAGS = -Wall -Wextra -std=c11 -g -D_DEFAULT_SOURCE -Iinclude `pkg-config --cflags glib-2.0`
 
 # Reúne todos os executáveis numa só variável
-OBJS = src/validadores.o src/vendedor.o src/parser.o src/cliente.o src/deque.o src/interpretador.o src/produto.o src/linha_encomenda.o src/encomenda.o src/gestor_produtos.o src/queries.o src/gestor_encomendas.o src/utils.o src/gestor_clientes.o src/gestor_vendedores.o src/carregamento.o
+OBJS = src/validadores.o src/vendedor.o src/parser.o src/cliente.o src/deque.o src/interpretador.o src/produto.o src/linha_encomenda.o src/encomenda.o src/gestor_produtos.o src/queries.o src/gestor_encomendas.o src/utils.o src/gestor_clientes.o src/gestor_vendedores.o src/carregamento.o src/comparador.o
 
 # Opcoes de linkagem(Caso usarmos outras bibliotecas sem ser a padrao de C)
 # pkg-config --libs glib-2.0 - indica a biblioteca da glib
@@ -48,6 +48,7 @@ src/carregamento.o: src/carregamento.c include/carregamento.h include/parser.h i
 
 src/utils.o: src/utils.c include/utils.h
 src/gestor_encomendas.o: src/gestor_encomendas.c include/gestor_encomendas.h include/encomenda.h
+src/comparador.o: src/comparador.c include/comparador.h
 
 #testes unitarios - compila testes.c com os modulos q ele testa
 testes/testes: testes/testes.c src/gestor_produtos.o src/produto.o src/gestor_encomendas.o src/encomenda.o
