@@ -1,9 +1,7 @@
 #include <stdio.h>
 #include "interpretador.h"
-#include "gestor_clientes.h"
-#include "gestor_vendedores.h"
 #include "carregamento.h"
-
+#include "dados.h"
 
 int main(int argc, char **argv)
 {
@@ -13,37 +11,36 @@ int main(int argc, char **argv)
         return 1;
     }
 
-char caminho_vendedores [512];
-char caminho_erros_vendedores [512];
-char caminho_clientes [512];
-char caminho_erros_clientes [512];
+    char caminho_vendedores[512];
+    char caminho_erros_vendedores[512];
+    char caminho_clientes[512];
+    char caminho_erros_clientes[512];
 
+    snprintf(caminho_vendedores, sizeof(caminho_vendedores), "%s/vendedores.csv", argv[1]);
+    snprintf(caminho_erros_vendedores, sizeof(caminho_erros_vendedores), "resultados/vendedores_errors.csv");
 
+    snprintf(caminho_clientes, sizeof(caminho_clientes), "%s/clientes.csv", argv[1]);
+    snprintf(caminho_erros_clientes, sizeof(caminho_erros_clientes), "resultados/clientes_errors.csv");
 
-snprintf (caminho_vendedores, sizeof(caminho_vendedores), "%s/vendedores.csv", argv[1]);
-snprintf (caminho_erros_vendedores, sizeof(caminho_erros_vendedores), "resultados/vendedores_errors.csv");
+    Dados *d = dados_criar();
 
-snprintf (caminho_clientes, sizeof(caminho_clientes), "%s/clientes.csv", argv[1]);
-snprintf (caminho_erros_clientes, sizeof(caminho_erros_clientes), "resultados/clientes_errors.csv");
+    if (d == NULL)
+    {
+        fprintf(stderr, "Erro: sem memoria para criar os dados\n");
+        return 1;
+    }
 
-GestorVendedores *gv = gestor_vendedores_create();
-GestorClientes *gc = gestor_clientes_create();
+    carregar_vendedores(caminho_vendedores, caminho_erros_vendedores, dados_get_vendedores_mut(d));
+    carregar_clientes(caminho_clientes, caminho_erros_clientes, dados_get_clientes_mut(d));
 
-
-
-carregar_vendedores (caminho_vendedores, caminho_erros_vendedores, gv);
-carregar_clientes (caminho_clientes, caminho_erros_clientes, gc);
-
-
-
-
-gestor_vendedores_destroy(gv);
-gestor_clientes_destroy(gc);
-
-    if (interpretar_comandos(argv[2]) == -1) {
+    if (interpretar_comandos(argv[2]) == -1)
+    {
+        dados_destruir(d);
         fprintf(stderr, "erro ao processar comandos\n");
         return 1;
     }
+
+    dados_destruir(d);
 
     return 0;
 }
