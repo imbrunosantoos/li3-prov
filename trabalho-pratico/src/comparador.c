@@ -71,11 +71,15 @@ void avaliar_resultados(const char *caminho_input, const char *pasta_esperados)
     size_t capi = 0;
     ssize_t lidosi;
 
+    int houve[4] = {0};
+    int certos[4] = {0};
+
     while ((lidosi = getline(&linei, &capi, fi)) != -1)
     {
-
         N++;
         numero = atoi(linei);
+        if (numero < 1 || numero > 3)
+            continue;
 
         char nome_ficheiro_ob[64];
         snprintf(nome_ficheiro_ob, sizeof(nome_ficheiro_ob), "resultados/command%d_output.txt", N);
@@ -85,8 +89,20 @@ void avaliar_resultados(const char *caminho_input, const char *pasta_esperados)
 
         int resultados = comparar_ficheiros(nome_ficheiro_ob, nome_ficheiro_es);
 
-        printf("comando %d -> Q%d :%d\n", N, numero, resultados);
+        houve[numero]++;
+        if (resultados == 0)
+            certos[numero]++;
+
+        if (resultados > 0)
+            printf("Discrepância no comando %d (Q%d): linha %d de \"%s\"\n", N, numero, resultados, nome_ficheiro_ob);
+
+        if (resultados == -1)
+            printf("Aviso: comando %d (Q%d) sem ficheiro para comparar\n", N, numero);
     }
+
+    for (int i = 1; i < 4; i++)
+        printf("Q%d: %d de %d testes ok!\n", i, certos[i], houve[i]);
+
     free(linei);
     fclose(fi);
 }
