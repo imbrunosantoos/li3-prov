@@ -73,9 +73,19 @@ void avaliar_resultados(const char *caminho_input, const char *pasta_esperados)
 
     while ((lidosi = getline(&linei, &capi, fi)) != -1)
     {
+
         N++;
         numero = atoi(linei);
-        printf("comando %d -> Q%d\n", N, numero);
+
+        char nome_ficheiro_ob[64];
+        snprintf(nome_ficheiro_ob, sizeof(nome_ficheiro_ob), "resultados/command%d_output.txt", N);
+
+        char nome_ficheiro_es[512];
+        snprintf(nome_ficheiro_es, sizeof(nome_ficheiro_es), "%s/command%d_output.txt", pasta_esperados, N);
+
+        int resultados = comparar_ficheiros(nome_ficheiro_ob, nome_ficheiro_es);
+
+        printf("comando %d -> Q%d :%d\n", N, numero, resultados);
     }
     free(linei);
     fclose(fi);
