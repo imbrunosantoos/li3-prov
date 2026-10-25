@@ -30,7 +30,7 @@ programa-testes: src/main_testes.o $(OBJS)
 	$(CC) $(CFLAGS) $^ $(LDFLAGS) -o $@
 
 src/main.o: src/main.c include/interpretador.h
-src/main_testes.o: src/main_testes.c
+src/main_testes.o: src/main_testes.c include/comparador.h
 src/validadores.o: src/validadores.c include/validadores.h
 src/vendedor.o: src/vendedor.c include/vendedor.h
 src/parser.o: src/parser.c include/parser.h

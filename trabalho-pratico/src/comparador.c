@@ -55,3 +55,28 @@ int comparar_ficheiros(const char *obtido, const char *esperado)
     fclose(fo);
     return resultado;
 }
+
+void avaliar_resultados(const char *caminho_input, const char *pasta_esperados)
+{
+    FILE *fi = fopen(caminho_input, "r");
+    if (fi == NULL)
+    {
+        fprintf(stderr, "Erro: nao consegui abrir %s\n", caminho_input);
+        return;
+    }
+
+    int N = 0;
+    int numero;
+    char *linei = NULL;
+    size_t capi = 0;
+    ssize_t lidosi;
+
+    while ((lidosi = getline(&linei, &capi, fi)) != -1)
+    {
+        N++;
+        numero = atoi(linei);
+        printf("comando %d -> Q%d\n", N, numero);
+    }
+    free(linei);
+    fclose(fi);
+}

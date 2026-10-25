@@ -9,4 +9,11 @@
  */
 int comparar_ficheiros(const char *obtido, const char *esperado);
 
+/**
+ * @brief Compara os resultados obtidos com os esperados e mostra quantos acertou por query
+ * @param caminho_input Ficheiro onde estão os comandos que as queries executaram
+ * @param pasta_esperados Onde estão os resultados esperados
+ */
+void avaliar_resultados(const char *caminho_input, const char *pasta_esperados);
+
 #endif
