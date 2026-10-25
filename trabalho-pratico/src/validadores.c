@@ -59,7 +59,7 @@ bool validar_preco (const char *texto, int64_t *cents) {
         }
         i++;
     }
-    if ( i == 0 || texto[i-1] == '.' || casas_decimais > 2) return false;
+    if ( i == 0 || texto[i-1] == '.' || casas_decimais > 2 ) return false;
     if (cents != NULL) {
         char *ponto = strchr (texto, '.');
         if (!ponto) {
@@ -91,6 +91,39 @@ bool validar_quantidade (const char *texto, int *quantidade) {
     }
     return true;
 }
+
+bool validar_linha_produto (const char **campos, int n_campos) {
+    if (n_campos < 6) return false;
+    if (!validar_id(campos [0], 'P')) return false;
+    if (!validar_texto(campos [1])) return false;
+    if (!validar_sem_espacos(campos [2])) return false;
+    if (!validar_preco(campos [3], NULL)) return false;
+    if (!validar_id(campos [4], 'V')) return false;
+    if (!validar_estado_produto(campos [5], NULL)) return false;
+    return true;
+}
+
+bool validar_linha_encomenda (const char **campos, int n_campos) {
+    if (n_campos < 4 ) return false;
+    if (!validar_id(campos[0], 'O')) return false;
+    if (!validar_id(campos[1], 'C')) return false;
+    if (!validar_data(campos[2])) return false;
+    if (!validar_estado_encomenda(campos[3], NULL)) return false;
+    return true;
+}    
+
+
+bool validar_linha_linhas_encomenda (const char **campos, int n_campos){
+    if (n_campos < 4) return false;
+    if (!validar_id (campos [0], 'O')) return false;
+    if (!validar_id (campos [1], 'P')) return false;
+    if (!validar_quantidade (campos [2], NULL)) return false;
+    if (!validar_preco(campos [3], NULL)) return false;
+    return true;
+}    
+
+
+
 
 bool validar_estado_produto (const char *texto, EstadoProduto *estado) {
     if (!texto) return false;
@@ -126,6 +159,7 @@ bool validar_estado_encomenda(const char *texto, EstadoEncomenda *estado) {
     }
     return false;
 }    
+
 
 
 
