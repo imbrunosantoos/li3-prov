@@ -30,7 +30,7 @@ programa-testes: src/main_testes.o $(OBJS)
 	$(CC) $(CFLAGS) $^ $(LDFLAGS) -o $@
 
 
-src/main_testes.o: src/main_testes.c include/comparador.h
+src/main_testes.o: src/main_testes.c include/comparador.h include/interpretador.h include/carregamento.h include/gestor_clientes.h include/cliente.h include/gestor_vendedores.h include/vendedor.h include/dados.h include/gestor_produtos.h include/produto.h include/gestor_encomendas.h include/encomenda.h
 src/main.o: src/main.c include/interpretador.h include/carregamento.h include/gestor_clientes.h include/cliente.h include/gestor_vendedores.h include/vendedor.h include/dados.h include/gestor_produtos.h include/produto.h include/gestor_encomendas.h include/encomenda.h
 src/validadores.o: src/validadores.c include/validadores.h
 src/vendedor.o: src/vendedor.c include/vendedor.h
