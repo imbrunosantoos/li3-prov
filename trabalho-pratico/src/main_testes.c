@@ -34,7 +34,7 @@ int main(int argc, char **argv)
     carregar_vendedores(caminho_vendedores, caminho_erros_vendedores, dados_get_vendedores_mut(d));
     carregar_clientes(caminho_clientes, caminho_erros_clientes, dados_get_clientes_mut(d));
 
-    if (interpretar_comandos(argv[2]) == -1)
+    if (interpretar_comandos(d, argv[2]) == -1)
     {
         dados_destruir(d);
         fprintf(stderr, "erro ao processar comandos\n");
