@@ -21,5 +21,9 @@ bool validar_estado_encomenda (const char *texto, EstadoEncomenda *estado);
 
 bool validar_linha_cliente(const char  **campos, int n_campos);
 bool validar_linha_vendedor(const char  **campos, int n_campos);
+bool validar_linha_produto(const char **campos, int n_campos);
+bool validar_linha_encomenda(const char **campos, int n_campos);
+bool validar_linha_linhas_encomenda (const char **campos, int n_campos);
 
 #endif
+
