@@ -1,7 +1,5 @@
 #ifndef QUERIES_H
 #define QUERIES_H
-#include <stdlib.h>
-#include <stdio.h>
 #include "dados.h"
 #include "output.h"
 
