@@ -4,6 +4,7 @@
 #include "gestor_encomendas.h"
 #include "gestor_clientes.h"
 #include "gestor_vendedores.h"
+#include "gestor_linhas_encomenda.h"
 
 typedef struct dados Dados;
 
@@ -74,5 +75,19 @@ const GestorVendedores *dados_get_vendedores(const Dados *d);
  * @return  O gestor de vendedores, onde se pode inserir. Pertence à estrutura de dados: não fazer free nem destroy (é libertado pelo dados_destruir).
  */
 GestorVendedores *dados_get_vendedores_mut(Dados *d);
+
+/**
+ * @brief   Dá acesso ao gestor de linhas de encomenda, só para leitura. É o getter que as queries devem usar.
+ * @param d Estrutura de dados.
+ * @return  O gestor de linhas de encomenda. Pertence à estrutura de dados: não fazer free nem destroy (é libertado pelo dados_destruir).
+ */
+const GestorLinhaEncomenda *dados_get_linhasencomendas(const Dados *d);
+
+/**
+ * @brief   Dá acesso ao gestor de linhas de encomenda, para inserir dados. É o getter que o carregamento deve usar (as queries usam dados_get_linhasencomendas).
+ * @param d Estrutura de dados.
+ * @return  O gestor de linhas de encomendas, onde se pode inserir. Pertence à estrutura de dados: não fazer free nem destroy (é libertado pelo dados_destruir).
+ */
+GestorLinhaEncomenda *dados_get_linhasencomendas_mut(Dados *d);
 
 #endif
