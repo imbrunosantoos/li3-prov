@@ -37,12 +37,12 @@ src/vendedor.o: src/vendedor.c include/vendedor.h
 src/parser.o: src/parser.c include/parser.h
 src/cliente.o: src/cliente.c include/cliente.h
 src/deque.o: src/deque.c include/deque.h
-src/interpretador.o: src/interpretador.c include/interpretador.h include/parser.h include/queries.h
+src/interpretador.o: src/interpretador.c include/parser.h include/interpretador.h include/dados.h include/gestor_produtos.h include/produto.h include/gestor_encomendas.h include/encomenda.h include/gestor_clientes.h include/cliente.h include/gestor_vendedores.h include/vendedor.h include/gestor_linhas_encomenda.h include/linha_encomenda.h include/queries.h include/output.h
 src/produto.o: src/produto.c include/produto.h
 src/linha_encomenda.o: src/linha_encomenda.c include/linha_encomenda.h
 src/encomenda.o: src/encomenda.c include/encomenda.h
 src/gestor_produtos.o: src/gestor_produtos.c include/gestor_produtos.h include/produto.h
-src/queries.o: src/queries.c include/queries.h
+src/queries.o: src/queries.c include/queries.h include/dados.h include/gestor_produtos.h include/produto.h include/gestor_encomendas.h include/encomenda.h include/gestor_clientes.h include/cliente.h include/gestor_vendedores.h include/vendedor.h include/gestor_linhas_encomenda.h include/linha_encomenda.h include/output.h
 src/gestor_clientes.o: src/gestor_clientes.c include/gestor_clientes.h include/cliente.h
 src/gestor_vendedores.o: src/gestor_vendedores.c include/gestor_vendedores.h include/vendedor.h
 src/output.o: src/output.c include/output.h
