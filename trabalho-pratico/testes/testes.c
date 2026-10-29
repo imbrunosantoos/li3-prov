@@ -5,6 +5,8 @@
 #include "gestor_produtos.h"
 #include "gestor_encomendas.h"
 #include "gestor_linhas_encomenda.h"
+#include "gestor_estatisticas.h"
+
 
 static int total = 0;
 static int falhas = 0;
@@ -150,6 +152,62 @@ static void teste_gestor_linhas_erro(void) {
     gestor_linha_encomenda_destroy(gl);
 }
 
+// ---------- Gestor de estatísticas
+
+// Caso normal: duas linhas não canceladas do mesmo produto somam unidades e receita
+static void teste_gestor_estatisticas_normal(void) {
+    GestorEstatisticas *ge = gestor_estatisticas_create();
+    // 2 x 10,00 € e 5 x 10,00 €
+    LinhaEncomenda *l1 = linha_encomenda_nova("O000001", "P000001", 2, 1000);
+    LinhaEncomenda *l2 = linha_encomenda_nova("O000002", "P000001", 5, 1000);
+
+    VERIFICA(gestor_estatisticas_registrar_linha(ge, l1, ENCOMENDA_PAGA));
+    VERIFICA(gestor_estatisticas_registrar_linha(ge, l2, ENCOMENDA_ENTREGUE));
+    VERIFICA(gestor_estatisticas_get_unidades(ge, "P000001") == 7);
+    VERIFICA(gestor_estatisticas_get_receita_cents(ge, "P000001") == 7000);
+
+    // o gestor de estatísticas não fica com as linhas, por isso o teste destrói-as
+    linha_encomenda_destroy(l1);
+    linha_encomenda_destroy(l2);
+    gestor_estatisticas_destroy(ge);
+}
+
+// Casos-limite: produto sem vendas dá 0; linha de encomenda cancelada é aceite mas não conta;
+// receita acima do limite de um int (3 000 000 000 cêntimos) não transborda
+static void teste_gestor_estatisticas_limite(void) {
+    GestorEstatisticas *ge = gestor_estatisticas_create();
+    LinhaEncomenda *cancelada = linha_encomenda_nova("O000001", "P000001", 4, 1000);
+    LinhaEncomenda *grande = linha_encomenda_nova("O000002", "P000002", 1000, 3000000);
+
+    VERIFICA(gestor_estatisticas_get_unidades(ge, "P000003") == 0);
+    VERIFICA(gestor_estatisticas_get_receita_cents(ge, "P000003") == 0);
+    VERIFICA(gestor_estatisticas_registrar_linha(ge, cancelada, ENCOMENDA_CANCELADA));
+    VERIFICA(gestor_estatisticas_get_unidades(ge, "P000001") == 0);
+    VERIFICA(gestor_estatisticas_registrar_linha(ge, grande, ENCOMENDA_PAGA));
+    VERIFICA(gestor_estatisticas_get_receita_cents(ge, "P000002") == 3000000000);
+
+    linha_encomenda_destroy(cancelada);
+    linha_encomenda_destroy(grande);
+    gestor_estatisticas_destroy(ge);
+}
+
+// Casos de erro: gestor ou linha NULL são recusados; os getters com NULL dão 0
+static void teste_gestor_estatisticas_erro(void) {
+    GestorEstatisticas *ge = gestor_estatisticas_create();
+    LinhaEncomenda *l = linha_encomenda_nova("O000001", "P000001", 1, 1000);
+
+    VERIFICA(!gestor_estatisticas_registrar_linha(NULL, l, ENCOMENDA_PAGA));
+    VERIFICA(!gestor_estatisticas_registrar_linha(ge, NULL, ENCOMENDA_PAGA));
+    VERIFICA(gestor_estatisticas_get_unidades(NULL, "P000001") == 0);
+    VERIFICA(gestor_estatisticas_get_receita_cents(ge, NULL) == 0);
+    // destruir NULL não pode rebentar
+    gestor_estatisticas_destroy(NULL);
+
+    linha_encomenda_destroy(l);
+    gestor_estatisticas_destroy(ge);
+}
+
+
 int main(void) {
     teste_gestor_produtos_normal();
     teste_gestor_produtos_limite();
@@ -160,7 +218,11 @@ int main(void) {
     teste_gestor_linhas_normal();
     teste_gestor_linhas_limite();
     teste_gestor_linhas_erro();
+    teste_gestor_estatisticas_normal();
+    teste_gestor_estatisticas_limite();
+    teste_gestor_estatisticas_erro();
 
+    
     printf("Testes: %d, falhas: %d\n", total, falhas);
 
     if (falhas > 0) return 1;
