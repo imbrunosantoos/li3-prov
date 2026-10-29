@@ -6,7 +6,7 @@
 #include "gestor_encomendas.h"
 #include "gestor_linhas_encomenda.h"
 #include "gestor_estatisticas.h"
-
+#include "validadores.h"
 
 static int total = 0;
 static int falhas = 0;
@@ -207,6 +207,25 @@ static void teste_gestor_estatisticas_erro(void) {
     gestor_estatisticas_destroy(ge);
 }
 
+static void teste_validar_id_erro(void)
+{
+    VERIFICA(!validar_id("p000007", 'P'));
+    VERIFICA(!validar_id("0007", 'P'));
+    VERIFICA(!validar_id("P00A7", 'P'));
+    VERIFICA(!validar_id("X000007", 'P'));
+}
+static void teste_validar_id_limite(void)
+{
+    VERIFICA(!validar_id("P", 'P'));
+    VERIFICA(!validar_id("", 'P'));
+    VERIFICA(validar_id("P0", 'P'));
+}
+
+static void teste_validar_id_normal(void)
+{
+    VERIFICA(validar_id("P0004", 'P'));
+    VERIFICA(validar_id("P00421", 'P'));
+}
 
 int main(void) {
     teste_gestor_produtos_normal();
@@ -221,6 +240,9 @@ int main(void) {
     teste_gestor_estatisticas_normal();
     teste_gestor_estatisticas_limite();
     teste_gestor_estatisticas_erro();
+    teste_validar_id_normal();
+    teste_validar_id_limite();
+    teste_validar_id_erro();
 
     
     printf("Testes: %d, falhas: %d\n", total, falhas);
