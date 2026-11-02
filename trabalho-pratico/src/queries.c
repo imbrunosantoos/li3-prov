@@ -47,7 +47,6 @@ void query2(const Dados *d, Output *o, char *const *args, int n_args)
     output_fim_linha(o);
 }
 
-/* Stub: escreve linha vazia até a Q3 estar implementada. */
 void query3(const Dados *d, Output *o, char *const *args, int n_args)
 {
     if (n_args < 1)
