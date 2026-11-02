@@ -9,13 +9,14 @@ typedef struct linhaEncomenda LinhaEncomenda;
 
 /**
  * @brief Cria uma nova linha de encomenda
- * @param id_encomenda         Identificador da encomenda a que a linha pertence 
- * @param id_produto           Identificador do produto da linha 
- * @param quantidade           Número de unidades do produto 
- * @param preco_unitario_cents Preço pago por unidade no momento da compra, em cêntimos(pd ser diferente do preço atual do produto)
- * @return Apontador para a nova linha, a libertar com linha_encomenda_destroy ou NULL se não houver memoria
+ *
+ * @param id_encomenda         Identificador da encomenda a que a linha pertence
+ * @param id_produto           Identificador do produto da linha
+ * @param quantidade           Número de unidades do produto
+ * @param preco_unitario_cents Preço pago por unidade no momento da compra, em cêntimos 
+ * 
+ * @return Apontador para a nova linha, a libertar com linha_encomenda_destroy, ou NULL se não houver memória
  */
-
 
 LinhaEncomenda *linha_encomenda_nova(const char *id_encomenda, const char *id_produto, int quantidade, int64_t preco_unitario_cents);
 

@@ -1,12 +1,10 @@
 #include "linha_encomenda.h"
-
-#include <string.h>
 #include <stdlib.h>
 
-//Strings em char * (e não const char *): a linha é dona das cópias e tem de as libertar em linha_encomenda_destroy.
+//os ids não são copiados: apontam para os ids da Encomenda e do Produto, que vivem até ao fim do programa
 struct linhaEncomenda{
-    char *id_encomenda;
-    char *id_produto;
+    const char *id_encomenda;
+    const char *id_produto;
     int quantidade;
     int64_t preco_unitario_cents;
 };
@@ -16,30 +14,19 @@ LinhaEncomenda *linha_encomenda_nova(const char *id_encomenda, const char *id_pr
     LinhaEncomenda *le = malloc(sizeof(LinhaEncomenda));
     if(le == NULL) return NULL;
 
-    // strdup-  o parser reutiliza o buffer da linha, por isso guardamos cópias nossas
-    char *id_encomenda1 = strdup(id_encomenda);
-    le->id_encomenda = id_encomenda1;
+    le->id_encomenda = id_encomenda;
 
-    char *id_produto1 = strdup(id_produto);
-    le->id_produto = id_produto1;
+    le->id_produto = id_produto;
 
     le->quantidade = quantidade;
 
     le->preco_unitario_cents = preco_unitario_cents;
 
-    // Se algum strdup falhou, o destroy liberta o que já foi copiado
-    if(le->id_encomenda == NULL || le->id_produto == NULL){
-        linha_encomenda_destroy(le);
-        return NULL;
-    }
     return le;
 }
 
 void linha_encomenda_destroy(LinhaEncomenda *le){
     if(le == NULL) return;
-
-    free(le->id_encomenda);
-    free(le->id_produto);
 
     free(le);
 }
