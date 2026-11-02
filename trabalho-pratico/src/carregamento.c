@@ -195,11 +195,13 @@ int carregar_linhas (const char *entrada, const char *erros, GestorLinhaEncomend
             fputs(buffer, f_er);
             continue;
         }
-        if (gestor_encomendas_procurar(ge,campos[0]) == NULL) {
+        const Encomenda *enc = gestor_encomendas_procurar(ge,campos[0]);
+        if (enc == NULL) {
             fputs(buffer, f_er);
             continue;
         }
-        if (gestor_produtos_procurar(gp,campos[1]) == NULL) {
+        const Produto *prod = gestor_produtos_procurar(gp,campos[1]);
+        if (prod == NULL) {
             fputs(buffer, f_er);
             continue;
         }
@@ -211,8 +213,9 @@ int carregar_linhas (const char *entrada, const char *erros, GestorLinhaEncomend
        int64_t cents;
        validar_quantidade (campos [2], &quantidade);
        validar_preco(campos[3], &cents);
-        LinhaEncomenda *l = linha_encomenda_nova (campos [0], campos [1], quantidade, cents);
-        if (!l) {
+        // a linha aponta para os ids da encomenda e do produto encontrados
+        LinhaEncomenda *l = linha_encomenda_nova (encomenda_get_id(enc), produto_get_id(prod), quantidade, cents);       
+         if (!l) {
             fputs(buffer, f_er);
             continue;
         }
