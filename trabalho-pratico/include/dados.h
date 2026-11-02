@@ -5,6 +5,8 @@
 #include "gestor_clientes.h"
 #include "gestor_vendedores.h"
 #include "gestor_linhas_encomenda.h"
+#include "gestor_estatisticas.h"
+
 
 typedef struct dados Dados;
 
@@ -89,5 +91,11 @@ const GestorLinhaEncomenda *dados_get_linhasencomendas(const Dados *d);
  * @return  O gestor de linhas de encomendas, onde se pode inserir. Pertence à estrutura de dados: não fazer free nem destroy (é libertado pelo dados_destruir).
  */
 GestorLinhaEncomenda *dados_get_linhasencomendas_mut(Dados *d);
+
+const GestorEstatisticas *dados_get_estatisticas(const Dados *d);
+
+GestorEstatisticas *dados_get_estatisticas_mut(Dados *d);
+
+
 
 #endif
