@@ -8,6 +8,7 @@ struct dados
     GestorVendedores *vendedores;
     GestorEncomendas *encomendas;
     GestorLinhaEncomenda *linhasencomendas;
+    GestorEstatisticas *estatisticas;
 };
 
 void dados_destruir(Dados *d)
@@ -19,6 +20,7 @@ void dados_destruir(Dados *d)
         gestor_vendedores_destroy(d->vendedores);
         gestor_encomendas_destroy(d->encomendas);
         gestor_linha_encomenda_destroy(d->linhasencomendas);
+        gestor_estatisticas_destroy(d->estatisticas);
         free(d);
     }
 }
@@ -60,6 +62,12 @@ Dados *dados_criar(void)
     d->linhasencomendas = gestor_linha_encomenda_create();
     if (d->linhasencomendas == NULL)
     {
+        dados_destruir(d);
+        return NULL;
+    }
+
+    d->estatisticas = gestor_estatisticas_create();
+    if(d->estatisticas == NULL){
         dados_destruir(d);
         return NULL;
     }
@@ -111,4 +119,12 @@ const GestorLinhaEncomenda *dados_get_linhasencomendas(const Dados *d)
 GestorLinhaEncomenda *dados_get_linhasencomendas_mut(Dados *d)
 {
     return d->linhasencomendas;
+}
+
+const GestorEstatisticas *dados_get_estatisticas(const Dados *d){
+    return d->estatisticas;
+}
+
+GestorEstatisticas *dados_get_estatisticas_mut(Dados *d){
+    return d->estatisticas;
 }
