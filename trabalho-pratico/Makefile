@@ -56,7 +56,7 @@ src/gestor_estatisticas.o : src/gestor_estatisticas.c include/gestor_estatistica
 
 
 #testes unitarios - compila testes.c com os modulos q ele testa
-testes/testes: testes/testes.c src/gestor_produtos.o src/produto.o src/gestor_encomendas.o src/encomenda.o src/gestor_linhas_encomenda.o src/linha_encomenda.o src/gestor_estatisticas.o
+testes/testes: testes/testes.c src/gestor_produtos.o src/produto.o src/gestor_encomendas.o src/encomenda.o src/gestor_linhas_encomenda.o src/linha_encomenda.o src/gestor_estatisticas.o src/validadores.o
 	$(CC) $(CFLAGS) $^ $(LDFLAGS) -o $@
 
 # Corre os testes unitários dos gestores
