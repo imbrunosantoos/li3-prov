@@ -92,7 +92,19 @@ const GestorLinhaEncomenda *dados_get_linhasencomendas(const Dados *d);
  */
 GestorLinhaEncomenda *dados_get_linhasencomendas_mut(Dados *d);
 
+/**
+ * @brief   Dá acesso ao gestor de estatísticas, só para leitura. É o getter que as queries devem usar
+ * @param d Estrutura de dados
+ * @return  O gestor de estatísticas, pertence à estrutura de dados-não fazer free nem destroy
+ */
+
 const GestorEstatisticas *dados_get_estatisticas(const Dados *d);
+
+/**
+ * @brief   Dá acesso ao gestor de estatísticas, para registar as linhas. É o getter que o carregamento deve usar (as queries usam dados_get_estatisticas).
+ * @param d Estrutura de dados
+ * @return  O gestor de estatísticas, onde se pode registar. Pertence à estrutura de dados: não fazer free nem destroy (é libertado pelo dados_destruir).
+ */
 
 GestorEstatisticas *dados_get_estatisticas_mut(Dados *d);
 
