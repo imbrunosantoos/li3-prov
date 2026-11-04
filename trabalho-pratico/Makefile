@@ -30,8 +30,8 @@ programa-testes: src/main_testes.o $(OBJS)
 	$(CC) $(CFLAGS) $^ $(LDFLAGS) -o $@
 
 
-src/main_testes.o: src/main_testes.c include/comparador.h include/interpretador.h include/dados.h include/gestor_produtos.h include/produto.h include/gestor_encomendas.h include/encomenda.h include/gestor_clientes.h include/cliente.h include/gestor_vendedores.h include/vendedor.h include/gestor_linhas_encomenda.h include/linha_encomenda.h include/carregamento.h include/dados.h
-src/main.o: src/main.c include/interpretador.h include/dados.h include/gestor_produtos.h include/produto.h include/gestor_encomendas.h include/encomenda.h include/gestor_clientes.h include/cliente.h include/gestor_vendedores.h include/vendedor.h include/gestor_linhas_encomenda.h include/linha_encomenda.h include/carregamento.h include/dados.h
+src/main_testes.o: src/main_testes.c include/comparador.h include/interpretador.h include/dados.h include/gestor_produtos.h include/produto.h include/gestor_encomendas.h include/encomenda.h include/gestor_clientes.h include/cliente.h include/gestor_vendedores.h include/vendedor.h include/gestor_linhas_encomenda.h include/linha_encomenda.h include/carregamento.h include/dados.h include/gestor_estatisticas.h
+src/main.o: src/main.c include/interpretador.h include/dados.h include/gestor_produtos.h include/produto.h include/gestor_encomendas.h include/encomenda.h include/gestor_clientes.h include/cliente.h include/gestor_vendedores.h include/vendedor.h include/gestor_linhas_encomenda.h include/linha_encomenda.h include/carregamento.h include/dados.h include/gestor_estatisticas.h
 src/validadores.o: src/validadores.c include/validadores.h
 src/vendedor.o: src/vendedor.c include/vendedor.h
 src/parser.o: src/parser.c include/parser.h
@@ -42,11 +42,11 @@ src/produto.o: src/produto.c include/produto.h
 src/linha_encomenda.o: src/linha_encomenda.c include/linha_encomenda.h
 src/encomenda.o: src/encomenda.c include/encomenda.h
 src/gestor_produtos.o: src/gestor_produtos.c include/gestor_produtos.h include/produto.h
-src/queries.o: src/queries.c include/queries.h include/dados.h include/gestor_produtos.h include/produto.h include/gestor_encomendas.h include/encomenda.h include/gestor_clientes.h include/cliente.h include/gestor_vendedores.h include/vendedor.h include/gestor_linhas_encomenda.h include/linha_encomenda.h include/output.h include/utils.h
+src/queries.o: src/queries.c include/queries.h include/dados.h include/gestor_produtos.h include/produto.h include/gestor_encomendas.h include/encomenda.h include/gestor_clientes.h include/cliente.h include/gestor_vendedores.h include/vendedor.h include/gestor_linhas_encomenda.h include/linha_encomenda.h include/output.h include/utils.h include/gestor_estatisticas.h
 src/gestor_clientes.o: src/gestor_clientes.c include/gestor_clientes.h include/cliente.h
 src/gestor_vendedores.o: src/gestor_vendedores.c include/gestor_vendedores.h include/vendedor.h
 src/output.o: src/output.c include/output.h
-src/carregamento.o: src/carregamento.c include/carregamento.h include/gestor_clientes.h include/cliente.h include/gestor_vendedores.h include/vendedor.h include/parser.h include/validadores.h include/produto.h include/encomenda.h 
+src/carregamento.o: src/carregamento.c include/carregamento.h include/gestor_clientes.h include/cliente.h include/gestor_vendedores.h include/vendedor.h include/parser.h include/validadores.h include/produto.h include/encomenda.h include/gestor_estatisticas.h
 src/utils.o: src/utils.c include/utils.h
 src/gestor_encomendas.o: src/gestor_encomendas.c include/gestor_encomendas.h include/encomenda.h
 src/comparador.o: src/comparador.c include/comparador.h
