@@ -170,7 +170,7 @@ int carregar_encomendas (const char *entrada, const char *erros, GestorEncomenda
 
 
 
-int carregar_linhas (const char *entrada, const char *erros, GestorLinhaEncomenda *gl, GestorEncomendas *ge, GestorProdutos *gp) {
+int carregar_linhas (const char *entrada, const char *erros, GestorLinhaEncomenda *gl, GestorEncomendas *ge, GestorProdutos *gp, GestorEstatisticas *gs) {
      FILE *f_in = fopen (entrada, "r");
     if (!f_in) {
         perror("ERRO AO ABRIR FICHEIRO DE LINHAS");
@@ -221,6 +221,8 @@ int carregar_linhas (const char *entrada, const char *erros, GestorLinhaEncomend
         }
         if (!gestor_linha_encomenda_inserir(gl, l))
             fputs(buffer, f_er);
+        else
+            gestor_estatisticas_registrar_linha(gs, l, encomenda_get_estado_encomenda(enc));
     }
     fclose(f_in);
     fclose(f_er);

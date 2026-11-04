@@ -6,6 +6,7 @@
 #include "gestor_produtos.h"
 #include "gestor_encomendas.h"
 #include "gestor_linhas_encomenda.h"
+#include "gestor_estatisticas.h"
 
 int carregar_clientes(const char *entrada, const char *erros, GestorClientes *gc);
 
@@ -15,6 +16,6 @@ int carregar_produtos(const char *entrada, const char *erros, GestorProdutos *gp
 
 int carregar_encomendas(const char *entrada, const char *erros, GestorEncomendas *ge, GestorClientes *gc);
 
-int carregar_linhas(const char *entrada, const char *erros, GestorLinhaEncomenda *gl, GestorEncomendas *ge, GestorProdutos *gp);
+int carregar_linhas(const char *entrada, const char *erros, GestorLinhaEncomenda *gl, GestorEncomendas *ge, GestorProdutos *gp, GestorEstatisticas *gs);
 
 #endif
