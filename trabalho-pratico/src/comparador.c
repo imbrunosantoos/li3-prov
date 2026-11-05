@@ -56,7 +56,7 @@ int comparar_ficheiros(const char *obtido, const char *esperado)
     return resultado;
 }
 
-void avaliar_resultados(const char *caminho_input, const char *pasta_esperados)
+void avaliar_resultados(const char *caminho_input, const char *pasta_esperados, const double tempos[])
 {
     FILE *fi = fopen(caminho_input, "r");
     if (fi == NULL)
@@ -101,7 +101,15 @@ void avaliar_resultados(const char *caminho_input, const char *pasta_esperados)
     }
 
     for (int i = 1; i < 4; i++)
+    {
         printf("Q%d: %d de %d testes ok!\n", i, certos[i], houve[i]);
+
+        if (houve[i] > 0)
+        {
+            double media = tempos[i] / houve[i];
+            printf("    Tempo de Execução médio: %.6f s\n", media);
+        }
+    }
 
     free(linei);
     fclose(fi);

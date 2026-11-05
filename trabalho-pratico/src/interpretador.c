@@ -1,13 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 #include "parser.h"
 #include "interpretador.h"
 #include "queries.h"
 
 #define MAX_ARGS 6
 
-int interpretar_comandos(const Dados *d, const char *caminho_input)
+int interpretar_comandos(const Dados *d, const char *caminho_input, double tempos[])
 {
     FILE *fp = fopen(caminho_input, "r");
     if (fp == NULL)
@@ -45,6 +46,9 @@ int interpretar_comandos(const Dados *d, const char *caminho_input)
             return -1;
         }
 
+        struct timespec inicio, fim;
+        clock_gettime(CLOCK_REALTIME, &inicio);
+
         switch (numero)
         {
         case 1:
@@ -63,6 +67,15 @@ int interpretar_comandos(const Dados *d, const char *caminho_input)
             output_fim_linha(o);
             break;
         }
+
+        clock_gettime(CLOCK_REALTIME, &fim);
+        double decorrido = (fim.tv_sec - inicio.tv_sec) + (fim.tv_nsec - inicio.tv_nsec) / 1e9;
+
+        if (tempos != NULL && numero > 0 && numero < 4)
+        {
+            tempos[numero] += decorrido;
+        }
+
         output_fechar(o);
     }
 
