@@ -63,7 +63,7 @@ int main(int argc, char **argv)
 
     carregar_encomendas(caminho_encomendas, caminho_erros_encomendas, dados_get_encomendas_mut(d), dados_get_clientes_mut(d));
 
-    carregar_linhas(caminho_linhas, caminho_erros_linhas, dados_get_linhasencomendas_mut(d), dados_get_encomendas_mut(d), dados_get_produtos_mut(d));
+    carregar_linhas(caminho_linhas, caminho_erros_linhas, dados_get_linhasencomendas_mut(d), dados_get_encomendas_mut(d), dados_get_produtos_mut(d), dados_get_estatisticas_mut(d));
 
     double tempo[4] = {0};
     if (interpretar_comandos(d, argv[2], tempo) == -1)
