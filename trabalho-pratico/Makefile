@@ -13,7 +13,7 @@ CC = gcc
 CFLAGS = -Wall -Wextra -std=c11 -g -D_DEFAULT_SOURCE -Iinclude `pkg-config --cflags glib-2.0`
 
 # Reúne todos os executáveis numa só variável
-OBJS = src/validadores.o src/vendedor.o src/parser.o src/cliente.o src/deque.o src/interpretador.o src/produto.o src/linha_encomenda.o src/encomenda.o src/gestor_produtos.o src/queries.o src/gestor_encomendas.o src/utils.o src/gestor_clientes.o src/gestor_vendedores.o src/carregamento.o src/gestor_linhas_encomenda.o src/dados.o src/output.o src/comparador.o src/gestor_estatisticas.o
+OBJS = src/validadores.o src/vendedor.o src/parser.o src/cliente.o src/interpretador.o src/produto.o src/linha_encomenda.o src/encomenda.o src/gestor_produtos.o src/queries.o src/gestor_encomendas.o src/utils.o src/gestor_clientes.o src/gestor_vendedores.o src/carregamento.o src/gestor_linhas_encomenda.o src/dados.o src/output.o src/comparador.o src/gestor_estatisticas.o
 
 # Opcoes de linkagem(Caso usarmos outras bibliotecas sem ser a padrao de C)
 # pkg-config --libs glib-2.0 - indica a biblioteca da glib
@@ -36,7 +36,6 @@ src/validadores.o: src/validadores.c include/validadores.h
 src/vendedor.o: src/vendedor.c include/vendedor.h
 src/parser.o: src/parser.c include/parser.h
 src/cliente.o: src/cliente.c include/cliente.h
-src/deque.o: src/deque.c include/deque.h
 src/interpretador.o: src/interpretador.c include/parser.h include/interpretador.h include/dados.h include/gestor_produtos.h include/produto.h include/gestor_encomendas.h include/encomenda.h include/gestor_clientes.h include/cliente.h include/gestor_vendedores.h include/vendedor.h include/gestor_linhas_encomenda.h include/linha_encomenda.h include/queries.h include/output.h
 src/produto.o: src/produto.c include/produto.h
 src/linha_encomenda.o: src/linha_encomenda.c include/linha_encomenda.h
