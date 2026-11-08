@@ -52,6 +52,7 @@ static void escrever_inteiro(Output *o, int valor)
     output_campo(o, txt);
 }
 
+//escreve a ficha de um produto, (unidade e a receita ja vem calculada do gestor de estatisticas)
 void query1(const Dados *d, Output *o, char *const *args, int n_args)
 {
     const Produto *p = NULL;
