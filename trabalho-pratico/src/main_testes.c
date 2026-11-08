@@ -60,6 +60,8 @@ int main(int argc, char **argv)
 
     carregar_linhas(caminho_linhas, caminho_erros_linhas, dados_get_linhasencomendas_mut(d), dados_get_encomendas_mut(d), dados_get_produtos_mut(d), dados_get_estatisticas_mut(d));
 
+    gestor_estatisticas_construir_ranking(dados_get_estatisticas_mut(d), dados_get_produtos(d));
+
     if (interpretar_comandos(d, argv[2]) == -1)
     {
         dados_destruir(d);

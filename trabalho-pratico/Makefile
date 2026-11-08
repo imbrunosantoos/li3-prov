@@ -55,6 +55,7 @@ src/gestor_linhas_encomenda.o : src/gestor_linhas_encomenda.c include/gestor_lin
 src/gestor_estatisticas.o : src/gestor_estatisticas.c include/gestor_estatisticas.h include/linha_encomenda.h include/encomenda.h include/gestor_produtos.h include/produto.h
 
 
+
 #testes unitarios - compila testes.c com os modulos q ele testa
 testes/testes: testes/testes.c src/gestor_produtos.o src/produto.o src/gestor_encomendas.o src/encomenda.o src/gestor_linhas_encomenda.o src/linha_encomenda.o src/gestor_estatisticas.o src/validadores.o
 	$(CC) $(CFLAGS) $^ $(LDFLAGS) -o $@
