@@ -67,5 +67,10 @@ int gestor_estatisticas_get_unidades(const GestorEstatisticas *ge, const char *i
 
 int64_t gestor_estatisticas_get_receita_cents(const GestorEstatisticas *ge, const char *id);
 
+bool gestor_estatisticas_construir_ranking(GestorEstatisticas *ge, const GestorProdutos *gp);
+
+int gestor_estatisticas_ranking_num(const GestorEstatisticas *ge);
+
+const Produto *gestor_estatisticas_ranking_get(const GestorEstatisticas *ge, int i);
 
 #endif
