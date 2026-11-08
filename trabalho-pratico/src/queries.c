@@ -29,12 +29,57 @@ static int comparar_linhas_por_produto(const void *a, const void *b)
     return strcmp(linha_encomenda_get_id_produto(la), linha_encomenda_get_id_produto(lb));
 }
 
-/* Stub: escreve linha vazia até a Q1 estar implementada. */
+//devolve o estado do produto em texto
+static const char *estado_produto_para_texto(EstadoProduto estado){
+    if (estado == PRODUTO_ATIVO){
+        return "ativo";
+    }
+    return "descontinuado";
+}
+//escreve euros no output
+static void escrever_euros(Output *o, int64_t cents)
+{
+    char txt[32];
+    utils_cents_para_string_em_euros(cents, txt, sizeof(txt));
+    output_campo(o, txt);
+}
+
+//escreve o valor inteiro no output
+static void escrever_inteiro(Output *o, int valor)
+{
+    char txt[16];
+    snprintf(txt, sizeof(txt), "%d", valor);
+    output_campo(o, txt);
+}
+
 void query1(const Dados *d, Output *o, char *const *args, int n_args)
 {
-    (void)args;
-    (void)n_args;
-    (void)d;
+    const Produto *p = NULL;
+    if (n_args >= 1)
+        p = gestor_produtos_procurar(dados_get_produtos(d), args[0]);
+
+    if (p == NULL)
+    {
+        output_fim_linha(o);
+        return;
+    }
+
+    const char *id = args[0];
+
+    const Vendedor *v = gestor_vendedores_procurar(dados_get_vendedores(d), produto_get_id_vendedor(p));
+    const char *nome_vendedor = "";
+    if (v != NULL)
+        nome_vendedor = get_vendedor_nome(v);
+
+    const GestorEstatisticas *ge = dados_get_estatisticas(d);
+
+    output_campo(o, produto_get_nome(p));
+    output_campo(o, produto_get_categoria(p));
+    escrever_euros(o, produto_get_preco_atual_cents(p));
+    output_campo(o, estado_produto_para_texto(produto_get_estado_produto(p)));
+    output_campo(o, nome_vendedor);
+    escrever_inteiro(o, gestor_estatisticas_get_unidades(ge, id));
+    escrever_euros(o, gestor_estatisticas_get_receita_cents(ge, id));
     output_fim_linha(o);
 }
 
