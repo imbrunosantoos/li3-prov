@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include <time.h>
+#include <sys/resource.h>
 #include "comparador.h"
 #include "interpretador.h"
 #include "carregamento.h"
@@ -11,6 +13,9 @@ int main(int argc, char **argv)
         fprintf(stderr, "uso: %s <pasta_dataset> <ficheiro_comandos> <pasta_resultados_esperados>\n", argv[0]);
         return 1;
     }
+
+    struct timespec inicio, fim;
+    clock_gettime(CLOCK_REALTIME, &inicio);
 
     char caminho_vendedores[512];
     char caminho_erros_vendedores[512];
@@ -62,16 +67,26 @@ int main(int argc, char **argv)
 
     gestor_estatisticas_construir_ranking(dados_get_estatisticas_mut(d), dados_get_produtos(d));
 
-    if (interpretar_comandos(d, argv[2]) == -1)
+    double tempo[4] = {0};
+    if (interpretar_comandos(d, argv[2], tempo) == -1)
     {
         dados_destruir(d);
         fprintf(stderr, "erro ao processar comandos\n");
         return 1;
     }
 
-    avaliar_resultados(argv[2], argv[3]);
+    avaliar_resultados(argv[2], argv[3], tempo);
 
     dados_destruir(d);
+
+    clock_gettime(CLOCK_REALTIME, &fim);
+    double decorrido = (fim.tv_sec - inicio.tv_sec) + (fim.tv_nsec - inicio.tv_nsec) / 1e9;
+
+    printf("Tempo Total: %.6f s\n", decorrido);
+
+    struct rusage r_usage;
+    getrusage(RUSAGE_SELF, &r_usage);
+    printf("Memória utilizada: %.2f MB\n", r_usage.ru_maxrss / 1024.0);
 
     return 0;
 }

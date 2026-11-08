@@ -61,7 +61,7 @@ int main(int argc, char **argv)
 
     gestor_estatisticas_construir_ranking(dados_get_estatisticas_mut(d), dados_get_produtos(d));
     
-    if (interpretar_comandos(d, argv[2]) == -1)
+    if (interpretar_comandos(d, argv[2], NULL) == -1)
     {
         dados_destruir(d);
         fprintf(stderr, "erro ao processar comandos\n");
