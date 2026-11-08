@@ -5,6 +5,7 @@
 #include <stdbool.h>
 #include "linha_encomenda.h"
 #include "encomenda.h"
+#include "gestor_produtos.h"
 
 typedef struct gestorEstatisticas GestorEstatisticas;
 
