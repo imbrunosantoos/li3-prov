@@ -45,5 +45,14 @@ const Produto *gestor_produtos_procurar(const GestorProdutos *ge, const char *id
 
 void gestor_produtos_destroy(GestorProdutos *ge);
 
+/**
+ * @brief dá uma lista com todos os produtos do gestor
+ *
+ * @param gp Gestor a consultar
+ * @param n  onde se escreve quantos produtos tem a lista
+ *
+ * @return Array novo com os produtos
+ */
+const Produto **gestor_produtos_lista(const GestorProdutos *gp, int *n);
 
 #endif
