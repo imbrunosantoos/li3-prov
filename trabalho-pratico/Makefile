@@ -52,7 +52,8 @@ src/gestor_encomendas.o: src/gestor_encomendas.c include/gestor_encomendas.h inc
 src/comparador.o: src/comparador.c include/comparador.h
 src/dados.o: src/dados.c include/dados.h include/gestor_produtos.h include/produto.h include/gestor_encomendas.h include/encomenda.h include/gestor_clientes.h include/cliente.h include/gestor_vendedores.h include/vendedor.h include/gestor_linhas_encomenda.h include/linha_encomenda.h include/gestor_estatisticas.h
 src/gestor_linhas_encomenda.o : src/gestor_linhas_encomenda.c include/gestor_linhas_encomenda.h include/linha_encomenda.h
-src/gestor_estatisticas.o : src/gestor_estatisticas.c include/gestor_estatisticas.h include/linha_encomenda.h include/encomenda.h
+src/gestor_estatisticas.o : src/gestor_estatisticas.c include/gestor_estatisticas.h include/linha_encomenda.h include/encomenda.h include/gestor_produtos.h include/produto.h
+
 
 
 #testes unitarios - compila testes.c com os modulos q ele testa

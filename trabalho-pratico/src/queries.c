@@ -84,13 +84,56 @@ void query1(const Dados *d, Output *o, char *const *args, int n_args)
     output_fim_linha(o);
 }
 
-/* Stub: escreve linha vazia até a Q2 estar implementada. */
+// sem filtro-todos os produtos servem, com filtro-só os dessa categoria
+static bool pertence_categoria(const Produto *p, const char *categoria)
+{
+    if (categoria == NULL)
+        return true;
+    return strcmp(produto_get_categoria(p), categoria) == 0;
+}
+
+//top N produtos mais vendidos (opcionalmente só de uma categoria), lidos do ranking já ordenado na carga
 void query2(const Dados *d, Output *o, char *const *args, int n_args)
 {
-    (void)args;
-    (void)n_args;
-    (void)d;
-    output_fim_linha(o);
+    if (n_args < 1)
+    {
+        output_fim_linha(o);
+        return;
+    }
+
+    int n = atoi(args[0]);
+
+    // a categoria é opcional: sem ela entram todos os produtos
+    const char *categoria = NULL;
+    if (n_args >= 2)
+        categoria = args[1];
+
+    const GestorEstatisticas *ge = dados_get_estatisticas(d);
+    int total = gestor_estatisticas_ranking_num(ge);
+    int escritos = 0;
+
+    //para quando acaba o ranking ou quando já escreveu n produtos
+    for (int i = 0; i < total && escritos < n; i++)
+    {
+        const Produto *p = gestor_estatisticas_ranking_get(ge, i);
+
+        // a ordem dentro de uma categoria é a mesma do ranking, por isso basta saltar as outras
+        if (!pertence_categoria(p, categoria))
+            continue;
+
+        const char *id = produto_get_id(p);
+
+        output_campo(o, produto_get_nome(p));
+        output_campo(o, produto_get_categoria(p));
+        escrever_inteiro(o, gestor_estatisticas_get_unidades(ge, id));
+        escrever_euros(o, gestor_estatisticas_get_receita_cents(ge, id));
+        output_fim_linha(o);
+        escritos++;
+    }
+
+    // nenhum produto satisfez o pedido-linha vazia
+    if (escritos == 0)
+        output_fim_linha(o);
 }
 
 void query3(const Dados *d, Output *o, char *const *args, int n_args)

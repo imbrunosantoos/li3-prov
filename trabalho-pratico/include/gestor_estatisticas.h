@@ -5,6 +5,7 @@
 #include <stdbool.h>
 #include "linha_encomenda.h"
 #include "encomenda.h"
+#include "gestor_produtos.h"
 
 typedef struct gestorEstatisticas GestorEstatisticas;
 
@@ -67,5 +68,35 @@ int gestor_estatisticas_get_unidades(const GestorEstatisticas *ge, const char *i
 
 int64_t gestor_estatisticas_get_receita_cents(const GestorEstatisticas *ge, const char *id);
 
+/**
+ * @brief Constrói o ranking de todos os produtos (unidades vendidas desc, id asc). Chamar uma vez, depois da carga.
+ *
+ * @param ge Gestor onde guardar o ranking
+ * @param gp Gestor com todos os produtos válidos (também os que não têm vendas)
+ *
+ * @return true se o ranking foi construído, false se não houver produtos, faltar memória ou algum argumento for NULL
+ */
+
+bool gestor_estatisticas_construir_ranking(GestorEstatisticas *ge, const GestorProdutos *gp);
+
+/**
+ * @brief Devolve quantos produtos tem o ranking
+ *
+ * @param ge Gestor a consultar
+ *
+ * @return Número de produtos no ranking (0 se ainda não foi construído)
+ */
+
+int gestor_estatisticas_ranking_num(const GestorEstatisticas *ge);
+
+/**
+ * @brief Devolve o produto na posição i do ranking (0 é o mais vendido)
+ *
+ * @param ge Gestor a consultar
+ * @param i  Posição no ranking
+ *
+ * @return O produto, ou NULL se i estiver fora do ranking. Pertence ao gestor de produtos: não libertar
+ */
+const Produto *gestor_estatisticas_ranking_get(const GestorEstatisticas *ge, int i);
 
 #endif

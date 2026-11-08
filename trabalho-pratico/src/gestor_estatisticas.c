@@ -2,6 +2,7 @@
 
 #include <glib.h>
 #include <stdlib.h>
+#include <string.h>
 
 // estatísticas de um produto - privada, ninguém fora deste .c sabe que existe
 typedef struct estatisticaProduto{
@@ -9,8 +10,17 @@ typedef struct estatisticaProduto{
     int64_t receita_cents;
 }EstatisticaProduto;
 
+//uma posição do ranking-o produto e as unidades já calculadas
+//assim a ordenação compara números em vez de ir procurar à tabela
+typedef struct itemRanking{
+    const Produto *p;
+    int unidades;
+}ItemRanking;
+
 struct gestorEstatisticas{
     GHashTable *por_produto;
+    ItemRanking *ranking;   // array ordenado- posição 0 = mais vendido
+    int n_ranking;          // quantas posições tem
 };
 
 GestorEstatisticas *gestor_estatisticas_create(void){
@@ -30,6 +40,8 @@ void gestor_estatisticas_destroy(GestorEstatisticas *ge){
      // a tabela liberta cada chave e cada estatística com as funções dadas no create
     g_hash_table_destroy(ge->por_produto);
 
+    // só o array, os produtos pertencem ao gestor de produtos
+    free(ge->ranking);
     free(ge);   
 }
 
@@ -75,4 +87,58 @@ int64_t gestor_estatisticas_get_receita_cents(const GestorEstatisticas *ge, cons
     // produto sem vendas não tem entrada na tabela
     if(ep == NULL)return 0;
     return ep->receita_cents;
+}
+
+// o qsort chama esta função para saber qual de dois itens vem primeiro:
+// negativo = a vem antes, positivo = b vem antes
+//precisa do const void por causa do qsort
+static int comparar_ranking(const void *a, const void *b){
+    const ItemRanking *x = a;
+    const ItemRanking *y = b;
+    // mais unidades primeiro
+    if (x->unidades > y->unidades)
+        return -1;
+    if (x->unidades < y->unidades)
+        return 1;
+    // empate: id menor primeiro
+    return strcmp(produto_get_id(x->p), produto_get_id(y->p));
+}
+
+bool gestor_estatisticas_construir_ranking(GestorEstatisticas *ge, const GestorProdutos *gp){
+    if (ge == NULL || gp == NULL) return false;
+
+    int n;
+    const Produto **lista = gestor_produtos_lista(gp, &n);
+    if (lista == NULL) return false;
+
+    ItemRanking *ranking = malloc(n * sizeof(ItemRanking));
+    if (ranking == NULL){
+        free(lista);
+        return false;
+    }
+
+    // junta a cada produto as suas unidades (0 se nunca vendeu)
+    for (int i = 0; i < n; i++){
+        ranking[i].p = lista[i];
+        ranking[i].unidades = gestor_estatisticas_get_unidades(ge, produto_get_id(lista[i]));
+    }
+    // a lista já não é precisa pq  os apontadores passaram para o ranking
+    free(lista);
+
+    // ordena uma única vez- a partir daqui a Q2 só lê
+    qsort(ranking, n, sizeof(ItemRanking), comparar_ranking);
+
+    ge->ranking = ranking;
+    ge->n_ranking = n;
+    return true;
+}
+
+int gestor_estatisticas_ranking_num(const GestorEstatisticas *ge){
+    if (ge == NULL) return 0;
+    return ge->n_ranking;
+}
+
+const Produto *gestor_estatisticas_ranking_get(const GestorEstatisticas *ge, int i){
+    if (ge == NULL || i < 0 || i >= ge->n_ranking) return NULL;
+    return ge->ranking[i].p;
 }

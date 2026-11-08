@@ -57,3 +57,28 @@ const Produto *gestor_produtos_procurar(const GestorProdutos *ge, const char *id
     // o lookup já devolve NULL quando o id não existe
     return g_hash_table_lookup(ge->produtos, id);
 }
+
+const Produto **gestor_produtos_lista(const GestorProdutos *gp, int *n){
+    *n = 0;
+    if (gp == NULL) return NULL;
+
+    int total = g_hash_table_size(gp->produtos);
+    if (total == 0) return NULL;
+
+    // espaço para total apontadores: sizeof x tamanho do array
+    const Produto **lista = malloc(total * sizeof(const Produto *));
+    if (lista == NULL) return NULL;
+
+    //iter-marcador que passa por cada entrada da tabela, do início ao fim
+    GHashTableIter it;
+    gpointer valor;
+    g_hash_table_iter_init(&it, gp->produtos);
+    int i = 0;
+    //iter_next-mete o produto seguinte em valor e devolve false quando a tabela acaba
+    // NULL na chave: só interessa o produto
+    while (g_hash_table_iter_next(&it, NULL, &valor))
+        lista[i++] = valor;
+
+    *n = total;
+    return lista;
+}
